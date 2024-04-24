@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name"><![CDATA[Mind & Task Flow]]></string>
+    <string name="usernm">Nombre Usuario</string>
+    <string name="pswd">Contraseña</string>
+    <string name="bntlog">Iniciar Sesión</string>
+    <string name="btncrt">Crear Usuario</string>
+</resources>
