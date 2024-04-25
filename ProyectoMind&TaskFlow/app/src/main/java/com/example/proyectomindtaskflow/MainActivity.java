@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("Crear passwd: "+psw.getText());
 
 
-                manejadorBDTablas.insertar_user(usr.getText().toString(),psw.getText().toString(),"pepe",null);
+                manejadorBDTablas.insertar_user(usr.getText().toString(),psw.getText().toString(),"PEPE","PACO");
             }
         });
 
