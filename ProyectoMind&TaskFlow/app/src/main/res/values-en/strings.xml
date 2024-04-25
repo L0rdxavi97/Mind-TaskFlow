@@ -5,4 +5,5 @@
     <string name="pswd">Password</string>
     <string name="bntlog">Login</string>
     <string name="btncrt">Create User</string>
+    <string name="f_rec">Recuperation hint</string>
 </resources>

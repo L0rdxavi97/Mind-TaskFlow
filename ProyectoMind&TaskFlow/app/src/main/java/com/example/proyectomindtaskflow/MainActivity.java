@@ -47,7 +47,8 @@ public class MainActivity extends AppCompatActivity {
                 System.out.println("Crear passwd: "+psw.getText());
 
 
-                manejadorBDTablas.insertar_user(usr.getText().toString(),psw.getText().toString(),"PEPE","PACO");
+                //manejadorBDTablas.insertar_user(usr.getText().toString(),psw.getText().toString(),"PEPE","PACO");
+                intento2();
             }
         });
 
@@ -56,6 +57,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void intento() {
         Intent intent = new Intent(this, log_user.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
+    }
+    public void intento2() {
+        Intent intent = new Intent(this, create_user_activity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }

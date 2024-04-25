@@ -91,7 +91,7 @@ public class ManejadorBDTablas extends SQLiteOpenHelper {
         return (resultado!=-1);
     }
 
-    public Cursor listar(){
+    public Cursor listar_users(){
         SQLiteDatabase sqLiteDatabase=this.getReadableDatabase();
         Cursor cursor=sqLiteDatabase.rawQuery("SELECT * FROM "+TABLE_USER,null);
         return cursor;

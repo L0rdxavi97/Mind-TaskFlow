@@ -29,7 +29,7 @@ public class log_user extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 System.out.println("Boton log pulsado");
-                Cursor cursor=manejadorBDTablas.listar();
+                Cursor cursor=manejadorBDTablas.listar_users();
 
                 if (cursor != null) {
                     try {

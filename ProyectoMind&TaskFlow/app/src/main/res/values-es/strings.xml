@@ -5,4 +5,5 @@
     <string name="pswd">Contraseña</string>
     <string name="bntlog">Iniciar Sesión</string>
     <string name="btncrt">Crear Usuario</string>
+    <string name="f_rec">Frase Recuperacion</string>
 </resources>
