@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 System.out.println("Inicio Usuario: "+usr.getText());
                 System.out.println("Inicio passwd: "+psw.getText());
-
                 intento();
             }
         });
@@ -45,9 +44,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 System.out.println("Crear Usuario: "+usr.getText());
                 System.out.println("Crear passwd: "+psw.getText());
-
-
-                //manejadorBDTablas.insertar_user(usr.getText().toString(),psw.getText().toString(),"PEPE","PACO");
                 intento2();
             }
         });

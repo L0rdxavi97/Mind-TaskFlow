@@ -97,4 +97,42 @@ public class ManejadorBDTablas extends SQLiteOpenHelper {
         return cursor;
     }
 
+    public boolean borrar_user(String id){
+        SQLiteDatabase sqLiteDatabase=this.getWritableDatabase();
+        int borradas=sqLiteDatabase.delete(TABLE_USER,COL_ID_USER+"=?",new String[]{id});
+        sqLiteDatabase.close();
+        return borradas>0;
+    }
+
+    public boolean actualizar_idea(String id,String date,String titulo, String description, String group){
+        SQLiteDatabase sqLiteDatabase=this.getWritableDatabase();
+
+        ContentValues contentValues=new ContentValues();
+        contentValues.put(COL_TIT_IDEA,titulo);
+        contentValues.put(COL_DESC_IDEA,description);
+        contentValues.put(COL_DATE_IDEA,date);
+        contentValues.put(COL_GROUP_IDEA,group);
+
+        long resultado=sqLiteDatabase.update(TABLE_IDEA,contentValues,COL_ID_IDEA+"=?",new String[]{id});
+        sqLiteDatabase.close();
+
+        return (resultado>0);
+    }
+
+    public boolean actualizar_tarea(String id,String date,String titulo, String description, String group, int prior){
+        SQLiteDatabase sqLiteDatabase=this.getWritableDatabase();
+
+        ContentValues contentValues=new ContentValues();
+        contentValues.put(COL_TIT_TASK,titulo);
+        contentValues.put(COL_DESC_TASK,description);
+        contentValues.put(COL_DATE_TASK,date);
+        contentValues.put(COL_GROUP_TASK,group);
+        contentValues.put(COL_PRIOR_TASK,prior);
+
+        long resultado=sqLiteDatabase.update(TABLE_TASK,contentValues,COL_ID_TASK+"=?",new String[]{id});
+        sqLiteDatabase.close();
+
+        return (resultado>0);
+    }
+
 }
