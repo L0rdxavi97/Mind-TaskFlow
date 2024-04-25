@@ -119,7 +119,7 @@ public class ManejadorBDTablas extends SQLiteOpenHelper {
         return (resultado>0);
     }
 
-    public boolean actualizar_tarea(String id,String date,String titulo, String description, String group, int prior){
+    public boolean actualizar_tarea(String id,String date,String titulo, String description, String group, String prior){
         SQLiteDatabase sqLiteDatabase=this.getWritableDatabase();
 
         ContentValues contentValues=new ContentValues();
