@@ -20,7 +20,6 @@ public class ManejadorBDTablas extends SQLiteOpenHelper {
     private static final String COL_USER="USERNAME";
     private static final String COL_PASWD="PASSWORD";
     private static final String COL_FRAS_REC_PASWD="F_REC_PASWD";
-    private static final String COL_IMG="IMAGEN";
     private static final String COL_ID_IDEA="ID_IDEA";
     private static final String COL_TIT_IDEA="TITLE_IDEA";
     private static final String COL_DESC_IDEA="DESCRIPTION_IDEA";
@@ -52,8 +51,7 @@ public class ManejadorBDTablas extends SQLiteOpenHelper {
                 + COL_ID_USER + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + COL_USER + " TEXT, "
                 + COL_PASWD + " TEXT, "
-                + COL_FRAS_REC_PASWD + " TEXT, "
-                + COL_IMG + " TEXT "
+                + COL_FRAS_REC_PASWD + " TEXT"
                 + ")");
 
         sqLiteDatabase.execSQL("CREATE TABLE " + TABLE_IDEA + " ("
@@ -77,14 +75,13 @@ public class ManejadorBDTablas extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {}
 
-    public boolean insertar_user(String user,String passw, String frase, String imagen){
+    public boolean insertar_user(String user,String passw, String frase){
         SQLiteDatabase sqLiteDatabase=this.getWritableDatabase();
 
         ContentValues contentValues=new ContentValues();
         contentValues.put(COL_USER,user);
         contentValues.put(COL_PASWD,passw);
         contentValues.put(COL_FRAS_REC_PASWD,frase);
-        contentValues.put(COL_IMG, imagen);
 
         long resultado=sqLiteDatabase.insert(TABLE_USER,null,contentValues);
         sqLiteDatabase.close();

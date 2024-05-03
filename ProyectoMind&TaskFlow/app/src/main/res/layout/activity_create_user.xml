@@ -52,18 +52,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.364" />
 
-    <ImageView
-        android:id="@+id/img_new_user"
-        android:layout_width="228dp"
-        android:layout_height="251dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.697"
-        tools:srcCompat="@tools:sample/avatars" />
-
     <Button
         android:id="@+id/create_user_btn"
         android:layout_width="186dp"

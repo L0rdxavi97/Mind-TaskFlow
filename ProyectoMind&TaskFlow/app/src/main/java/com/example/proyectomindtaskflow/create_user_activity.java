@@ -32,7 +32,7 @@ public class create_user_activity extends AppCompatActivity {
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                manejadorBDTablas.insertar_user(nombre.getText().toString(),password.getText().toString(),frase.getText().toString(),"PACO");
+                manejadorBDTablas.insertar_user(nombre.getText().toString(),password.getText().toString(),frase.getText().toString());
 
                 System.out.println("Usuario: "+nombre.getText().toString());
                 System.out.println("Password: "+password.getText().toString());
