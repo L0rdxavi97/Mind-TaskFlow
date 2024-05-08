@@ -25,27 +25,27 @@ public class log_user extends AppCompatActivity {
         log = findViewById(R.id.login_btn);
         manejadorBDTablas=new ManejadorBDTablas(this);
         
-        log.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("Boton log pulsado");
-                Cursor cursor=manejadorBDTablas.listar_users();
-
-                if (cursor != null) {
-                    try {
-                        while (cursor.moveToNext()) {
-                            @SuppressLint("Range") int id = cursor.getInt(cursor.getColumnIndex("ID_USER"));
-                            @SuppressLint("Range") String nombre = cursor.getString(cursor.getColumnIndex("USERNAME"));
-                            @SuppressLint("Range") String password = cursor.getString(cursor.getColumnIndex("PASSWORD"));
-
-                            Log.d(TAG, "ID: " + id + ", Nombre: " + nombre + ", Password: " + password);
-                        }
-                    } finally {
-                        cursor.close();
-                    }
-                }
-            }
-        });
+//        log.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                System.out.println("Boton log pulsado");
+//                Cursor cursor=manejadorBDTablas.listar_users();
+//
+//                if (cursor != null) {
+//                    try {
+//                        while (cursor.moveToNext()) {
+//                            @SuppressLint("Range") int id = cursor.getInt(cursor.getColumnIndex("ID_USER"));
+//                            @SuppressLint("Range") String nombre = cursor.getString(cursor.getColumnIndex("USERNAME"));
+//                            @SuppressLint("Range") String password = cursor.getString(cursor.getColumnIndex("PASSWORD"));
+//
+//                            Log.d(TAG, "ID: " + id + ", Nombre: " + nombre + ", Password: " + password);
+//                        }
+//                    } finally {
+//                        cursor.close();
+//                    }
+//                }
+//            }
+//        });
 
     }
 }
