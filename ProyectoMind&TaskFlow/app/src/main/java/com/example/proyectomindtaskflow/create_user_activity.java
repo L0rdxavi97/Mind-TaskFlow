@@ -44,7 +44,12 @@ public class create_user_activity extends AppCompatActivity {
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                manejadorBDTablas.createUser(nombre.getText().toString(),password.getText().toString(),frase.getText().toString());
+                String username = nombre.getText().toString();
+                String userPassword = password.getText().toString();
+                String hintPhrase = frase.getText().toString();
+
+                // Call createUser method from ManejadorBDTablas
+                manejadorBDTablas.createUser(username, userPassword, hintPhrase);
             }
         });
     }
