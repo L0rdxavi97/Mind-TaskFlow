@@ -11,6 +11,7 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -18,9 +19,11 @@ import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -30,6 +33,7 @@ import java.util.List;
 
 public class ManejadorBDTablas{
 
+    public final int timeoutMillis = 10000;
     private static final String TAG = "ManejadorBDTablas";
     private static final String URL_CREATE_USER = "http://jacecab.000webhostapp.com/create_user.php";
     private static final String URL_CREATE_IDEA = "http://jacecab.000webhostapp.com/create_idea.php";
@@ -105,12 +109,59 @@ public class ManejadorBDTablas{
                     }
                 });
 
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                timeoutMillis,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
         // Agregar la solicitud a la cola de solicitudes
         mRequestQueue.add(request);
     }
 
     public void getUser(){
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, URL_GET_USER, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        // Procesar la respuesta JSON
+                        try {
+                            // Iterar a través de cada objeto JSON (cada fila de la tabla)
+                            for (int i = 0; i < response.length(); i++) {
+                                JSONObject objeto = response.getJSONObject(i);
 
+                                // Obtener los valores de cada campo
+                                String campo1 = objeto.getString("Nombre");
+                                String campo2 = objeto.getString("Contraseña");
+                                String campo3 = objeto.getString("Frase_rec");
+
+                                // Aquí puedes utilizar los valores como desees (por ejemplo, mostrarlos en un TextView)
+                                // textView.setText(campo1 + ", " + campo2);
+
+                                System.out.println(campo1+" "+campo2+" "+campo3);
+
+                                // O puedes almacenar los datos en una lista, adaptador, etc.
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Manejar errores de la solicitud HTTP
+                        error.printStackTrace();
+                    }
+                });
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                timeoutMillis,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+// Agregar la solicitud a la cola
+        mRequestQueue.add(request);
     }
 
 

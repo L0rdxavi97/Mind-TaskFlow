@@ -24,7 +24,12 @@ public class log_user extends AppCompatActivity {
         setContentView(R.layout.activity_log_user);
         log = findViewById(R.id.login_btn);
         manejadorBDTablas=new ManejadorBDTablas(this);
-        
+        log.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                manejadorBDTablas.getUser();
+            }
+        });
 //        log.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
