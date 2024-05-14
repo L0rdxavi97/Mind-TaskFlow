@@ -23,34 +23,12 @@ public class log_user extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_user);
         log = findViewById(R.id.login_btn);
-        manejadorBDTablas=new ManejadorBDTablas(this);
+        manejadorBDTablas= ManejadorBDTablas.getInstance(getApplicationContext());
         log.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 manejadorBDTablas.getUser();
             }
         });
-//        log.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                System.out.println("Boton log pulsado");
-//                Cursor cursor=manejadorBDTablas.listar_users();
-//
-//                if (cursor != null) {
-//                    try {
-//                        while (cursor.moveToNext()) {
-//                            @SuppressLint("Range") int id = cursor.getInt(cursor.getColumnIndex("ID_USER"));
-//                            @SuppressLint("Range") String nombre = cursor.getString(cursor.getColumnIndex("USERNAME"));
-//                            @SuppressLint("Range") String password = cursor.getString(cursor.getColumnIndex("PASSWORD"));
-//
-//                            Log.d(TAG, "ID: " + id + ", Nombre: " + nombre + ", Password: " + password);
-//                        }
-//                    } finally {
-//                        cursor.close();
-//                    }
-//                }
-//            }
-//        });
-
     }
 }

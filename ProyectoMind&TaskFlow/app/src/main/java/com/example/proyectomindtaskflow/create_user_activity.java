@@ -23,8 +23,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class create_user_activity extends AppCompatActivity {
-
-    private static final String URL_CREATE_USER = "http://jacecab.000webhostapp.com/create_user.php";
     private EditText nombre;
     private EditText password;
     private EditText frase;
@@ -39,16 +37,13 @@ public class create_user_activity extends AppCompatActivity {
         password = findViewById(R.id.ett_new_passwd);
         frase = findViewById(R.id.ett_new_r_hint);
         Button boton = findViewById(R.id.create_user_btn);
-        JSONObject postData = new JSONObject();
-        ManejadorBDTablas manejadorBDTablas=new ManejadorBDTablas(getApplicationContext());
+        ManejadorBDTablas manejadorBDTablas= ManejadorBDTablas.getInstance(getApplicationContext());
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String username = nombre.getText().toString();
                 String userPassword = password.getText().toString();
                 String hintPhrase = frase.getText().toString();
-
-                // Call createUser method from ManejadorBDTablas
                 manejadorBDTablas.createUser(username, userPassword, hintPhrase);
             }
         });

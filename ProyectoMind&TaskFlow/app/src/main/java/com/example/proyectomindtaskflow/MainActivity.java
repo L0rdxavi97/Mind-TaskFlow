@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        manejadorBDTablas = new ManejadorBDTablas(this);
+        manejadorBDTablas = ManejadorBDTablas.getInstance(getApplicationContext());
         usr=findViewById(R.id.ettUser);
         psw=findViewById(R.id.ettPswd);
         logbtn=findViewById(R.id.logbtn);
@@ -33,8 +33,9 @@ public class MainActivity extends AppCompatActivity {
         logbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("Inicio Usuario: "+usr.getText());
-                System.out.println("Inicio passwd: "+psw.getText());
+                //manejadorBDTablas.check_user(usr.getText().toString(),psw.getText().toString());
+                System.out.println("log Usuario: "+usr.getText());
+                System.out.println("log passwd: "+psw.getText());
                 intento();
             }
         });

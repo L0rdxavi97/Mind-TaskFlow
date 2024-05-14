@@ -3,6 +3,8 @@
     <!-- Permitir tráfico sin cifrar (HTTP) solo para el dominio específico -->
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">jacecab.000webhostapp.com</domain>
+        <domain includeSubdomains="true">jacecab.000webhost.com</domain>
+        <domain includeSubdomains="true">files.000webhost.com</domain>
     </domain-config>
 </network-security-config>
 
