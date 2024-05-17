@@ -44,6 +44,18 @@ public class create_user_activity extends AppCompatActivity {
                 String username = nombre.getText().toString();
                 String userPassword = password.getText().toString();
                 String hintPhrase = frase.getText().toString();
+                manejadorBDTablas.check_user(username, userPassword, new CheckUserCallback() {
+                    @Override
+                    public void onCheckUserResult(boolean success) {
+                        if (success) {
+                            Log.d("MainActivity", "Usuario autenticado correctamente.");
+                            // Lógica adicional para usuario autenticado
+                        } else {
+                            Log.d("MainActivity", "Fallo en la autenticación del usuario.");
+                            // Lógica adicional para fallo en la autenticación
+                        }
+                    }
+                });
                 manejadorBDTablas.createUser(username, userPassword, hintPhrase);
             }
         });

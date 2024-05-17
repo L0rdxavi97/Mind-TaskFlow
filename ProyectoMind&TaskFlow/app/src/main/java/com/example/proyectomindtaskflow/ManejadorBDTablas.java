@@ -53,7 +53,7 @@ public class ManejadorBDTablas{
 
     private static final String URL_CHECK_USER = "http://jacecab.000webhostapp.com/check_user.php";
 
-
+    private static boolean a;
     private RequestQueue mRequestQueue;
     private static ManejadorBDTablas instance;
 
@@ -174,63 +174,91 @@ public class ManejadorBDTablas{
         mRequestQueue.add(request);
     }
 
-//    public void check_user(String nombre,String password){
-//        JSONObject postData = new JSONObject();
-//        try {
-//            postData.put("valor1", nombre);
-//            postData.put("valor2", password);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//            return;
-//        }
-//
-//        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL_CHECK_USER, postData,
-//                new Response.Listener<JSONObject>() {
-//                    @Override
-//                    public void onResponse(JSONObject response) {
-//                        // Manejar la respuesta del servidor
-//                        Log.d(TAG, "Respuesta del servidor: " + response.toString());
-//                        // Aquí puedes procesar la respuesta del servidor si es necesario
-//                    }
-//                },
-//                new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        // Manejar errores de la solicitud
-//                        Log.e(TAG, "Error en la solicitud HTTP: " + error.toString());
-//
-//                        // Verificar el tipo de error
-//                        if (error instanceof NoConnectionError) {
-//                            Log.e(TAG, "Error: No hay conexión a internet");
-//                        } else if (error instanceof TimeoutError) {
-//                            Log.e(TAG, "Error: Tiempo de espera agotado");
-//                        } else if (error instanceof ServerError) {
-//                            Log.e(TAG, "Error: Error en el servidor");
-//                        } else if (error instanceof AuthFailureError) {
-//                            Log.e(TAG, "Error: Autenticación fallida");
-//                        } else {
-//                            // Otro tipo de error
-//                            Log.e(TAG, "Error: " + error.getClass().getSimpleName());
+    public static synchronized void change_check_user(boolean ch){
+        a=ch;
+    }
+
+    public static synchronized boolean get_check_user(){
+        return a;
+    }
+
+    public void check_user(String nombre,String password, CheckUserCallback callback){
+        JSONObject postData = new JSONObject();
+        try {
+            postData.put("valor1", nombre);
+            postData.put("valor2", password);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL_CHECK_USER, postData,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Manejar la respuesta del servidor
+                        Log.d(TAG, "Respuesta del servidor: " + response.toString());
+                        ManejadorBDTablas.change_check_user(true);
+                        callback.onCheckUserResult(true);
+//                        if(ManejadorBDTablas.get_check_user()){
+//                            JSONObject user = null;
+//                            try {
+//                                user = response.getJSONObject("user");
+//                            } catch (JSONException e) {
+//                                throw new RuntimeException(e);
+//                            }
+//                            try {
+//                                int userId = user.getInt("id");
+//                            } catch (JSONException e) {
+//                                throw new RuntimeException(e);
+//                            }
+//                            Log.d(TAG, "Id:" + response.toString());
 //                        }
-//
-//                        // Verificar si hay un mensaje de error específico
-//                        if (error.getMessage() != null) {
-//                            Log.e(TAG, "Mensaje de error: " + error.getMessage());
-//                        } else {
-//                            Log.e(TAG, "Causa del error desconocida");
-//                        }
-//                    }
-//                });
-//
-//
-//        request.setRetryPolicy(new DefaultRetryPolicy(
-//                timeoutMillis,
-//                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-//                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-//
-//        // Agregar la solicitud a la cola de solicitudes
-//        mRequestQueue.add(request);
-//    }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Manejar errores de la solicitud
+                        ManejadorBDTablas.change_check_user(false);
+                        Log.e(TAG, "Error en la solicitud HTTP: " + error.toString());
+
+                        // Verificar el tipo de error
+                        if (error instanceof NoConnectionError) {
+                            Log.e(TAG, "Error: No hay conexión a internet");
+                        } else if (error instanceof TimeoutError) {
+                            Log.e(TAG, "Error: Tiempo de espera agotado");
+                        } else if (error instanceof ServerError) {
+                            Log.e(TAG, "Error: Error en el servidor");
+                        } else if (error instanceof AuthFailureError) {
+                            Log.d(TAG, "Error: Autenticación fallida");
+                            Log.d(TAG, "Error: Usuario incorrecto");
+                        } else {
+                            // Otro tipo de error
+                            Log.e(TAG, "Error: " + error.getClass().getSimpleName());
+                        }
+
+                        // Verificar si hay un mensaje de error específico
+                        if (error.getMessage() != null) {
+                            Log.e(TAG, "Mensaje de error: " + error.getMessage());
+                        } else {
+                            Log.e(TAG, "Causa del error desconocida");
+                        }
+                        callback.onCheckUserResult(false);
+
+                    }
+                });
+
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                timeoutMillis,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        // Agregar la solicitud a la cola de solicitudes
+        mRequestQueue.add(request);
+
+    }
 
 
 
