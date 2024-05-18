@@ -270,6 +270,16 @@ public class ManejadorBDTablas{
 
     }
 
+
+
+    public void getIdea(){
+
+    }
+
+    public void getTask(){
+
+    }
+
     public static void saveint(Context context, String key, int text) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();

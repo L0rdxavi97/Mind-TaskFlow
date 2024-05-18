@@ -2,6 +2,7 @@ package com.example.proyectomindtaskflow;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -33,7 +34,7 @@ public class log_user extends AppCompatActivity {
         log.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                manejadorBDTablas.getUser();
+                intento();
             }
         });
     }
@@ -41,5 +42,11 @@ public class log_user extends AppCompatActivity {
     public static String gettext(Context context, String key, String defaultValue) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         return sharedPreferences.getString(key, defaultValue);
+    }
+
+    public void intento() {
+        Intent intent = new Intent(this, listactivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
     }
 }
