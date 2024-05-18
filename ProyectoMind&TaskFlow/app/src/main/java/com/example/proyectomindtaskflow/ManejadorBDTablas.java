@@ -2,6 +2,7 @@ package com.example.proyectomindtaskflow;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -34,6 +35,7 @@ import java.util.List;
 public class ManejadorBDTablas{
 
     public final int timeoutMillis = 10000;
+    private static final String PREFS_NAME = "MyPrefsFile";
     private static final String TAG = "ManejadorBDTablas";
     private static final String URL_CREATE_USER = "http://jacecab.000webhostapp.com/create_user.php";
     private static final String URL_CREATE_IDEA = "http://jacecab.000webhostapp.com/create_idea.php";
@@ -56,6 +58,7 @@ public class ManejadorBDTablas{
     private static boolean a;
     private RequestQueue mRequestQueue;
     private static ManejadorBDTablas instance;
+    private static Context contexto;
 
     public ManejadorBDTablas(Context context) {
         mRequestQueue = Volley.newRequestQueue(context.getApplicationContext());
@@ -64,6 +67,7 @@ public class ManejadorBDTablas{
     public static synchronized ManejadorBDTablas getInstance(Context context) {
         if (instance == null) {
             instance = new ManejadorBDTablas(context);
+            contexto=context;
         }
         return instance;
     }
@@ -200,20 +204,26 @@ public class ManejadorBDTablas{
                         Log.d(TAG, "Respuesta del servidor: " + response.toString());
                         ManejadorBDTablas.change_check_user(true);
                         callback.onCheckUserResult(true);
-//                        if(ManejadorBDTablas.get_check_user()){
-//                            JSONObject user = null;
-//                            try {
-//                                user = response.getJSONObject("user");
-//                            } catch (JSONException e) {
-//                                throw new RuntimeException(e);
-//                            }
-//                            try {
-//                                int userId = user.getInt("id");
-//                            } catch (JSONException e) {
-//                                throw new RuntimeException(e);
-//                            }
-//                            Log.d(TAG, "Id:" + response.toString());
-//                        }
+                        if(ManejadorBDTablas.get_check_user()){
+                            JSONObject user = null;
+                            int userId;
+                            String username;
+                            try {
+                                user = response.getJSONObject("user");
+                            } catch (JSONException e) {
+                                throw new RuntimeException(e);
+                            }
+                            try {
+                                 userId = user.getInt("id_usuario");
+                                 username= user.getString("Nombre");
+                                saveint(contexto,"user_id",userId);
+                                savetext(contexto,"user_name",username);
+                            } catch (JSONException e) {
+                                throw new RuntimeException(e);
+                            }
+                            Log.d(TAG, "Id:" + getint(contexto,"user_id",0));
+                            Log.d(TAG, "Nombre:" + gettext(contexto,"user_name",""));
+                        }
                     }
                 },
                 new Response.ErrorListener() {
@@ -258,6 +268,30 @@ public class ManejadorBDTablas{
         // Agregar la solicitud a la cola de solicitudes
         mRequestQueue.add(request);
 
+    }
+
+    public static void saveint(Context context, String key, int text) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(key, text);
+        editor.apply();
+    }
+
+    public static int getint(Context context, String key, int defaultValue) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(key, defaultValue);
+    }
+
+    public static void savetext(Context context, String key, String text) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(key, text);
+        editor.apply();
+    }
+
+    public static String gettext(Context context, String key, String defaultValue) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(key, defaultValue);
     }
 
 
