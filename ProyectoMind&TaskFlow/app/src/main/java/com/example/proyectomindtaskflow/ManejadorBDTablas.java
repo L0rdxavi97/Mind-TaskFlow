@@ -1,15 +1,8 @@
 package com.example.proyectomindtaskflow;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-
-import androidx.annotation.Nullable;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -28,9 +21,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.Blob;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
 
 public class ManejadorBDTablas{
 
@@ -270,6 +261,136 @@ public class ManejadorBDTablas{
 
     }
 
+    public void createidea(String titulo, String descripcion, String grupo, int id_usuario){
+        JSONObject postData = new JSONObject();
+        String fecha=obtenerFechaActual();
+        try {
+            postData.put("valor1", titulo);
+            postData.put("valor2", descripcion);
+            postData.put("valor3", fecha);
+            postData.put("valor4", grupo);
+            postData.put("valor5", id_usuario);
+            Log.d(TAG, "JSON a enviar: " + postData.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return;
+        }
+
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL_CREATE_IDEA, postData,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Manejar la respuesta del servidor
+                        Log.d(TAG, "Respuesta del servidor: " + response.toString());
+                        // Aquí puedes procesar la respuesta del servidor si es necesario
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Manejar errores de la solicitud
+                        Log.e(TAG, "Error en la solicitud HTTP: " + error.toString());
+
+                        // Verificar el tipo de error
+                        if (error instanceof NoConnectionError) {
+                            Log.e(TAG, "Error: No hay conexión a internet");
+                        } else if (error instanceof TimeoutError) {
+                            Log.e(TAG, "Error: Tiempo de espera agotado");
+                        } else if (error instanceof ServerError) {
+                            Log.e(TAG, "Error: Error en el servidor");
+                        } else if (error instanceof AuthFailureError) {
+                            Log.e(TAG, "Error: Autenticación fallida");
+                        } else {
+                            // Otro tipo de error
+                            Log.e(TAG, "Error: " + error.getClass().getSimpleName());
+                        }
+
+                        // Verificar si hay un mensaje de error específico
+                        if (error.getMessage() != null) {
+                            Log.e(TAG, "Mensaje de error: " + error.getMessage());
+                        } else {
+                            Log.e(TAG, "Causa del error desconocida");
+                        }
+                    }
+                });
+
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                timeoutMillis,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        // Agregar la solicitud a la cola de solicitudes
+        mRequestQueue.add(request);
+
+    }
+
+
+    public void createtask(String titulo, String descripcion, String grupo, int prioridad, int id_usuario){
+        JSONObject postData = new JSONObject();
+        String fecha=obtenerFechaActual();
+        try {
+            postData.put("valor1", titulo);
+            postData.put("valor2", descripcion);
+            postData.put("valor3", fecha);
+            postData.put("valor4", grupo);
+            postData.put("valor5", prioridad);
+            postData.put("valor6", id_usuario);
+            Log.d(TAG, "JSON a enviar: " + postData.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL_CREATE_TASK, postData,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Manejar la respuesta del servidor
+                        Log.d(TAG, "Respuesta del servidor: " + response.toString());
+                        // Aquí puedes procesar la respuesta del servidor si es necesario
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Manejar errores de la solicitud
+                        Log.e(TAG, "Error en la solicitud HTTP: " + error.toString());
+
+                        // Verificar el tipo de error
+                        if (error instanceof NoConnectionError) {
+                            Log.e(TAG, "Error: No hay conexión a internet");
+                        } else if (error instanceof TimeoutError) {
+                            Log.e(TAG, "Error: Tiempo de espera agotado");
+                        } else if (error instanceof ServerError) {
+                            Log.e(TAG, "Error: Error en el servidor");
+                        } else if (error instanceof AuthFailureError) {
+                            Log.e(TAG, "Error: Autenticación fallida");
+                        } else {
+                            // Otro tipo de error
+                            Log.e(TAG, "Error: " + error.getClass().getSimpleName());
+                        }
+
+                        // Verificar si hay un mensaje de error específico
+                        if (error.getMessage() != null) {
+                            Log.e(TAG, "Mensaje de error: " + error.getMessage());
+                        } else {
+                            Log.e(TAG, "Causa del error desconocida");
+                        }
+                    }
+                });
+
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                timeoutMillis,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        // Agregar la solicitud a la cola de solicitudes
+        mRequestQueue.add(request);
+    }
+
 
 
     public void getIdea(){
@@ -302,6 +423,10 @@ public class ManejadorBDTablas{
     public static String gettext(Context context, String key, String defaultValue) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         return sharedPreferences.getString(key, defaultValue);
+    }
+
+    public static String obtenerFechaActual() {
+        return LocalDate.now().toString();
     }
 
 

@@ -5,6 +5,11 @@
     <string name="bntlog">Login</string>
     <string name="btncrt">Create User</string>
     <string name="f_rec">Recuperation hint</string>
-    <string name="mind">Mind</string>
+    <string name="mind">Idea</string>
     <string name="task">Task</string>
+    <string name="desc">Description</string>
+    <string name="tit">Title</string>
+    <string name="grp">Group(Optional)</string>
+    <string name="crt">Create</string>
+    <string name="prit">Priority</string>
 </resources>

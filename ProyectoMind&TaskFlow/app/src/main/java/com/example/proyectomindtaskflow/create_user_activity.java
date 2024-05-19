@@ -1,6 +1,7 @@
 package com.example.proyectomindtaskflow;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -30,6 +31,7 @@ public class create_user_activity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_user);
 
@@ -45,10 +47,13 @@ public class create_user_activity extends AppCompatActivity {
                 String username = nombre.getText().toString();
                 String userPassword = password.getText().toString();
                 String hintPhrase = frase.getText().toString();
+                if(username!="" && userPassword!="" && hintPhrase!=""){
+                    manejadorBDTablas.createUser(username, userPassword, hintPhrase);
+                    intento();
+                }else {
+                    System.out.println("Campos debe estar llenos");
+                }
 
-                manejadorBDTablas.createUser(username, userPassword, hintPhrase);
-
-                intento();
             }
         });
     }

@@ -1,6 +1,7 @@
 package com.example.proyectomindtaskflow;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         manejadorBDTablas = ManejadorBDTablas.getInstance(this);
@@ -34,7 +36,9 @@ public class MainActivity extends AppCompatActivity {
         logbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                manejadorBDTablas.check_user(usr.getText().toString(), psw.getText().toString(), new CheckUserCallback() {
+                if(usr.getText().toString()!="" && psw.getText().toString()!="")
+                {
+                    manejadorBDTablas.check_user(usr.getText().toString(), psw.getText().toString(), new CheckUserCallback() {
                     @Override
                     public void onCheckUserResult(boolean success) {
                         if (success) {
@@ -47,6 +51,9 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
+                }else{
+                    Log.d("MainActivity", "Fallo en la autenticación del usuario.");
+                }
                 //manejadorBDTablas.check_user(usr.getText().toString(),psw.getText().toString());
                 //boolean a= ManejadorBDTablas.get_check_user();
                 System.out.println("log Usuario: "+usr.getText());
