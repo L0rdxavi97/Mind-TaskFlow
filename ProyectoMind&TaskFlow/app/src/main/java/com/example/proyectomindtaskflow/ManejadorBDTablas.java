@@ -3,6 +3,7 @@ package com.example.proyectomindtaskflow;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -22,6 +23,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ManejadorBDTablas{
 
@@ -82,6 +85,7 @@ public class ManejadorBDTablas{
                         // Manejar la respuesta del servidor
                         Log.d(TAG, "Respuesta del servidor: " + response.toString());
                         // Aquí puedes procesar la respuesta del servidor si es necesario
+                        return;
                     }
                 },
                 new Response.ErrorListener() {
@@ -150,6 +154,7 @@ public class ManejadorBDTablas{
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        return;
                     }
                 },
                 new Response.ErrorListener() {
@@ -215,6 +220,7 @@ public class ManejadorBDTablas{
                             Log.d(TAG, "Id:" + getint(contexto,"user_id",0));
                             Log.d(TAG, "Nombre:" + gettext(contexto,"user_name",""));
                         }
+                        return;
                     }
                 },
                 new Response.ErrorListener() {
@@ -284,6 +290,7 @@ public class ManejadorBDTablas{
                         // Manejar la respuesta del servidor
                         Log.d(TAG, "Respuesta del servidor: " + response.toString());
                         // Aquí puedes procesar la respuesta del servidor si es necesario
+                        return;
                     }
                 },
                 new Response.ErrorListener() {
@@ -350,6 +357,7 @@ public class ManejadorBDTablas{
                         // Manejar la respuesta del servidor
                         Log.d(TAG, "Respuesta del servidor: " + response.toString());
                         // Aquí puedes procesar la respuesta del servidor si es necesario
+                        return;
                     }
                 },
                 new Response.ErrorListener() {
@@ -393,12 +401,75 @@ public class ManejadorBDTablas{
 
 
 
-    public void getIdea(){
+    public void getIdea(final ArrayAdapter<JSONObject> arrayAdapter){
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, URL_GET_IDEA, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        try {
+                            List<JSONObject> ideas = new ArrayList<>();
+                            for (int i = 0; i < response.length(); i++) {
+                                ideas.add(response.getJSONObject(i));
+                            }
+                            arrayAdapter.clear();
+                            arrayAdapter.addAll(ideas);
+                            arrayAdapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Manejar errores de la solicitud HTTP
+                        error.printStackTrace();
+                    }
+                });
 
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                timeoutMillis,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        // Agregar la solicitud a la cola
+        mRequestQueue.add(request);
     }
 
-    public void getTask(){
 
+    public void getTask(final ArrayAdapter<JSONObject> arrayAdapter){
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, URL_GET_TASK, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        try {
+                            List<JSONObject> ideas = new ArrayList<>();
+                            for (int i = 0; i < response.length(); i++) {
+                                ideas.add(response.getJSONObject(i));
+                            }
+                            arrayAdapter.clear();
+                            arrayAdapter.addAll(ideas);
+                            arrayAdapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Manejar errores de la solicitud HTTP
+                        error.printStackTrace();
+                    }
+                });
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                timeoutMillis,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        // Agregar la solicitud a la cola
+        mRequestQueue.add(request);
     }
 
     public static void saveint(Context context, String key, int text) {
@@ -424,6 +495,7 @@ public class ManejadorBDTablas{
         SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         return sharedPreferences.getString(key, defaultValue);
     }
+
 
     public static String obtenerFechaActual() {
         return LocalDate.now().toString();

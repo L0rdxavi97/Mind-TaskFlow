@@ -15,6 +15,10 @@ public class Taskcl {
         this.prioridad = prioridad;
     }
 
+    public String tostring(){
+        return "Tarea: "+titulo;
+    }
+
     public int getId_task() {
         return id_task;
     }

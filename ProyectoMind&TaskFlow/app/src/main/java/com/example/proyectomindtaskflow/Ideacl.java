@@ -13,6 +13,10 @@ public class Ideacl {
         this.grupo = grupo;
     }
 
+    public String tostring(){
+        return "Idea: "+titulo;
+    }
+
     public void setId_idea(int id_idea) {
         this.id_idea = id_idea;
     }
