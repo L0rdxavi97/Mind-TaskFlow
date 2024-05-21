@@ -12,4 +12,6 @@
     <string name="tit">Titulo</string>
     <string name="grp">Grupo(Opcional)</string>
     <string name="crt">Crear</string>
+    <string name="prit">Prioridad</string>
+    <string name="hint">Pista</string>
 </resources>

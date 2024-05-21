@@ -12,4 +12,5 @@
     <string name="grp">Group(Optional)</string>
     <string name="crt">Create</string>
     <string name="prit">Priority</string>
+    <string name="hint">Hint</string>
 </resources>
