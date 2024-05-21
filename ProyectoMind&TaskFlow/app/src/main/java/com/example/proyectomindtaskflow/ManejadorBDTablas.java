@@ -48,8 +48,10 @@ public class ManejadorBDTablas{
     private static final String URL_DELETE_TASK = "http://jacecab.000webhostapp.com/delete_task.php";
 
     private static final String URL_CHECK_USER = "http://jacecab.000webhostapp.com/check_user.php";
+    private static final String URL_CHECK_USERNAME = "http://jacecab.000webhostapp.com/check_userName.php";
 
     private static boolean a;
+    private static boolean b;
     private RequestQueue mRequestQueue;
     private static ManejadorBDTablas instance;
     private static Context contexto;
@@ -180,6 +182,94 @@ public class ManejadorBDTablas{
 
     public static synchronized boolean get_check_user(){
         return a;
+    }
+
+    public static synchronized void change_check_userName(boolean ch){
+        b=ch;
+    }
+
+    public static synchronized boolean get_check_userName(){
+        return b;
+    }
+
+
+    public void check_userName(String nombre, CheckUserNameCallback callback){
+        JSONObject postData = new JSONObject();
+        try {
+            postData.put("valor1", nombre);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL_CHECK_USERNAME, postData,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Manejar la respuesta del servidor
+                        Log.d(TAG, "Respuesta del servidor: " + response.toString());
+                        ManejadorBDTablas.change_check_userName(true);
+                        callback.onCheckUserNameResult(true);
+                        if(ManejadorBDTablas.get_check_userName()){
+                            JSONObject user = null;
+                            String hint;
+                            try {
+                                user = response.getJSONObject("user");
+                            } catch (JSONException e) {
+                                throw new RuntimeException(e);
+                            }
+                            try {
+                                hint= user.getString("Frase_rec");
+                                savetext(contexto,"hint",hint);
+                            } catch (JSONException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                        return;
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Manejar errores de la solicitud
+                        ManejadorBDTablas.change_check_userName(false);
+                        Log.e(TAG, "Error en la solicitud HTTP: " + error.toString());
+
+                        // Verificar el tipo de error
+                        if (error instanceof NoConnectionError) {
+                            Log.e(TAG, "Error: No hay conexión a internet");
+                        } else if (error instanceof TimeoutError) {
+                            Log.e(TAG, "Error: Tiempo de espera agotado");
+                        } else if (error instanceof ServerError) {
+                            Log.e(TAG, "Error: Error en el servidor");
+                        } else if (error instanceof AuthFailureError) {
+                            Log.d(TAG, "Error: Autenticación fallida");
+                            Log.d(TAG, "Error: Usuario incorrecto");
+                        } else {
+                            // Otro tipo de error
+                            Log.e(TAG, "Error: " + error.getClass().getSimpleName());
+                        }
+
+                        // Verificar si hay un mensaje de error específico
+                        if (error.getMessage() != null) {
+                            Log.e(TAG, "Mensaje de error: " + error.getMessage());
+                        } else {
+                            Log.e(TAG, "Causa del error desconocida");
+                        }
+                        callback.onCheckUserNameResult(false);
+
+                    }
+                });
+
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                timeoutMillis,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        // Agregar la solicitud a la cola de solicitudes
+        mRequestQueue.add(request);
+
     }
 
     public void check_user(String nombre,String password, CheckUserCallback callback){

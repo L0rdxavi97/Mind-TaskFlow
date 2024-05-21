@@ -47,11 +47,21 @@ public class create_user_activity extends AppCompatActivity {
                 String username = nombre.getText().toString();
                 String userPassword = password.getText().toString();
                 String hintPhrase = frase.getText().toString();
-                if(username!="" && userPassword!="" && hintPhrase!=""){
-                    manejadorBDTablas.createUser(username, userPassword, hintPhrase);
-                    intento();
-                }else {
+                if(nombre.getText().toString().isEmpty() || password.getText().toString().isEmpty() || frase.getText().toString().isEmpty()){
                     System.out.println("Campos debe estar llenos");
+                }else {
+                    manejadorBDTablas.check_userName(nombre.getText().toString(), new CheckUserNameCallback() {
+                        @Override
+                        public void onCheckUserNameResult(boolean success) {
+                            if (success) {
+                                System.out.println("Nombre ya usado");
+                            } else {
+                                manejadorBDTablas.createUser(username, userPassword, hintPhrase);
+                                intento();
+                            }
+                        }
+                    });
+
                 }
 
             }
