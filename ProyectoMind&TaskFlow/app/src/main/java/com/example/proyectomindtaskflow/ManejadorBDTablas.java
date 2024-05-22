@@ -491,15 +491,15 @@ public class ManejadorBDTablas{
 
 
 
-    public void getIdea(final ArrayAdapter<JSONObject> arrayAdapter){
+    public void getIdea(final ArrayAdapter<IdeaWrapper> arrayAdapter){
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, URL_GET_IDEA, null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
                         try {
-                            List<JSONObject> ideas = new ArrayList<>();
+                            List<IdeaWrapper> ideas = new ArrayList<>();
                             for (int i = 0; i < response.length(); i++) {
-                                ideas.add(response.getJSONObject(i));
+                                ideas.add(new IdeaWrapper(response.getJSONObject(i)));
                             }
                             arrayAdapter.clear();
                             arrayAdapter.addAll(ideas);
@@ -527,15 +527,15 @@ public class ManejadorBDTablas{
     }
 
 
-    public void getTask(final ArrayAdapter<JSONObject> arrayAdapter){
+    public void getTask(final ArrayAdapter<TareaWrapper> arrayAdapter){
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, URL_GET_TASK, null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
                         try {
-                            List<JSONObject> ideas = new ArrayList<>();
+                            List<TareaWrapper> ideas = new ArrayList<>();
                             for (int i = 0; i < response.length(); i++) {
-                                ideas.add(response.getJSONObject(i));
+                                ideas.add(new TareaWrapper(response.getJSONObject(i)));
                             }
                             arrayAdapter.clear();
                             arrayAdapter.addAll(ideas);

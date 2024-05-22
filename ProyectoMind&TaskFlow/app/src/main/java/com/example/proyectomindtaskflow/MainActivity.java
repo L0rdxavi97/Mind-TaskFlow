@@ -45,21 +45,22 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(usr.getText().toString().isEmpty() || psw.getText().toString().isEmpty())
                 {
-                    manejadorBDTablas.check_user(usr.getText().toString(), psw.getText().toString(), new CheckUserCallback() {
-                    @Override
-                    public void onCheckUserResult(boolean success) {
-                        if (success) {
-                            Log.d("MainActivity", "Usuario autenticado correctamente.");
-                            intento();
-                            // Lógica adicional para usuario autenticado
-                        } else {
-                            Log.d("MainActivity", "Fallo en la autenticación del usuario.");
-                            // Lógica adicional para fallo en la autenticación
-                        }
-                    }
-                });
-                }else{
                     Log.d("MainActivity", "Fallo en la autenticación del usuario.");
+                }else{
+                    manejadorBDTablas.check_user(usr.getText().toString(), psw.getText().toString(), new CheckUserCallback() {
+                        @Override
+                        public void onCheckUserResult(boolean success) {
+                            if (success) {
+                                Log.d("MainActivity", "Usuario autenticado correctamente.");
+                                intento();
+                                // Lógica adicional para usuario autenticado
+                            } else {
+                                Log.d("MainActivity", "Fallo en la autenticación del usuario.");
+                                // Lógica adicional para fallo en la autenticación
+                            }
+                        }
+                    });
+
                 }
 
             }
