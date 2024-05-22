@@ -34,7 +34,8 @@ public class listactivity extends AppCompatActivity {
     public ManejadorBDTablas manejadorBDTablas;
     public Switch cambiadr;
     public FloatingActionButton boton;
-    public ArrayAdapter adaptador;
+    private CustomAdapterIdeas ideasAdapter;
+    private CustomAdapterTareas adapterTareas;
     public TextView tarea,idea;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +48,11 @@ public class listactivity extends AppCompatActivity {
         boton=findViewById(R.id.floatbtn);
         tarea=findViewById(R.id.textViewtarea);
         idea=findViewById(R.id.textViewidea);
-        listaview.setAdapter(adaptador);
-        adaptador = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, new ArrayList<>());
 
+        ideasAdapter = new CustomAdapterIdeas(this, new ArrayList<>());
+        adapterTareas=new CustomAdapterTareas(this,new ArrayList<>());
+
+        listaview.setAdapter(ideasAdapter);
         visualizar();
         cambiadr.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -77,7 +80,6 @@ public class listactivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(listactivity.this);
-
 
                 if(!cambiadr.isChecked()){
                     IdeaWrapper ideaWrapper = (IdeaWrapper) parent.getItemAtPosition(position);
@@ -107,7 +109,7 @@ public class listactivity extends AppCompatActivity {
                                 "Descripcion: " + jsonObjecttarea.getString("descripcion") + "\n" +
                                 "Grupo: " + jsonObjecttarea.getString("grupo_tarea") + "\n" +
                                 "Fecha: " + jsonObjecttarea.getString("fecha") + "\n" +
-                                "Prioridad: " + jsonObjecttarea.getString("Prioridad");
+                                "Prioridad: " + jsonObjecttarea.getInt("Prioridad");
                         builder.setMessage(message);
                     } catch (JSONException e) {
                         throw new RuntimeException(e);
@@ -133,15 +135,13 @@ public class listactivity extends AppCompatActivity {
         if(!cambiadr.isChecked()){
             idea.setTypeface(idea.getTypeface(), Typeface.BOLD);
             tarea.setTypeface(null, Typeface.NORMAL);
-            adaptador = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, new ArrayList<IdeaWrapper>());
-            listaview.setAdapter(adaptador);
-            manejadorBDTablas.getIdea(adaptador);
+            listaview.setAdapter(ideasAdapter);
+            manejadorBDTablas.getIdea(ideasAdapter);
         }else{
             idea.setTypeface(null, Typeface.NORMAL);
             tarea.setTypeface(tarea.getTypeface(), Typeface.BOLD);
-            adaptador = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, new ArrayList<TareaWrapper>());
-            listaview.setAdapter(adaptador);
-            manejadorBDTablas.getTask(adaptador);
+            listaview.setAdapter(adapterTareas);
+            manejadorBDTablas.getTask(adapterTareas);
         }
     }
 

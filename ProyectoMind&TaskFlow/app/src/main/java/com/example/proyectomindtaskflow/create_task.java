@@ -46,7 +46,7 @@ public class create_task extends AppCompatActivity {
                 if(p){
                     prt=1;
                 }else{
-                    prt=0;
+                    prt=2;
                 }
 
                 if(tit!="" && d!=""){

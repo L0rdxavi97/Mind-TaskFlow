@@ -491,7 +491,7 @@ public class ManejadorBDTablas{
 
 
 
-    public void getIdea(final ArrayAdapter<IdeaWrapper> arrayAdapter){
+    public void getIdea(final CustomAdapterIdeas arrayAdapter){
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, URL_GET_IDEA, null,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -527,7 +527,7 @@ public class ManejadorBDTablas{
     }
 
 
-    public void getTask(final ArrayAdapter<TareaWrapper> arrayAdapter){
+    public void getTask(final CustomAdapterTareas arrayAdapter){
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, URL_GET_TASK, null,
                 new Response.Listener<JSONArray>() {
                     @Override
