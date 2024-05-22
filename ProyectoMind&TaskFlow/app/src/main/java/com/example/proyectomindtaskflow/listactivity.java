@@ -65,11 +65,9 @@ public class listactivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(cambiadr.isChecked()){
-                    System.out.println("Task");
                     intento_task();
                 }
                 else{
-                    System.out.println("Mind");
                     intento_idea();
                 }
             }
@@ -100,6 +98,24 @@ public class listactivity extends AppCompatActivity {
                             dialogInterface.dismiss();
                         }
                     });
+                    builder.setNegativeButton("Borrar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            try {
+                                manejadorBDTablas.deleteidea(jsonObjectidea.getInt("id_idea"), new ManejadorBDTablas.ResponseCallback() {
+                                    @Override
+                                    public void onResponse() {
+                                        visualizar();
+                                        restartActivity();
+                                    }
+                                });
+                            } catch (JSONException e) {
+                                throw new RuntimeException(e);
+                            }
+                            dialogInterface.dismiss();
+                        }
+                    });
+
                 }else{
                     TareaWrapper tareaWrapper = (TareaWrapper) parent.getItemAtPosition(position);
                     JSONObject jsonObjecttarea = tareaWrapper.getJsonObject();
@@ -137,12 +153,15 @@ public class listactivity extends AppCompatActivity {
             tarea.setTypeface(null, Typeface.NORMAL);
             listaview.setAdapter(ideasAdapter);
             manejadorBDTablas.getIdea(ideasAdapter);
+            listaview.setAdapter(ideasAdapter);
         }else{
             idea.setTypeface(null, Typeface.NORMAL);
             tarea.setTypeface(tarea.getTypeface(), Typeface.BOLD);
             listaview.setAdapter(adapterTareas);
             manejadorBDTablas.getTask(adapterTareas);
+            listaview.setAdapter(adapterTareas);
         }
+
     }
 
 
@@ -163,4 +182,11 @@ public class listactivity extends AppCompatActivity {
         super.onResume();
         visualizar();
     }
+
+    public void restartActivity() {
+        Intent intent = getIntent();
+        finish();
+        startActivity(intent);
+    }
+
 }
