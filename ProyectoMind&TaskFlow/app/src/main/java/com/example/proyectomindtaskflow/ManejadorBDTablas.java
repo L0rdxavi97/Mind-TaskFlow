@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ManejadorBDTablas{
-    listactivity l=new listactivity();
     public final int timeoutMillis = 10000;
     private static final String PREFS_NAME = "MyPrefsFile";
     private static final String TAG = "ManejadorBDTablas";
@@ -362,7 +361,7 @@ public class ManejadorBDTablas{
 
     }
 
-    public void createidea(String titulo, String descripcion, String grupo, int id_usuario,final ResponseCallback callback){
+    public void createidea(String titulo, String descripcion, String grupo, int id_usuario){
         JSONObject postData = new JSONObject();
         String fecha=obtenerFechaActual();
         try {
@@ -384,7 +383,6 @@ public class ManejadorBDTablas{
                     public void onResponse(JSONObject response) {
                         // Manejar la respuesta del servidor
                         Log.d(TAG, "Respuesta del servidor: " + response.toString());
-                        l.restartActivity();
                         // Aquí puedes procesar la respuesta del servidor si es necesario
                         return;
                     }
@@ -394,7 +392,6 @@ public class ManejadorBDTablas{
                     public void onErrorResponse(VolleyError error) {
                         // Manejar errores de la solicitud
                         Log.e(TAG, "Error en la solicitud HTTP: " + error.toString());
-
                         // Verificar el tipo de error
                         if (error instanceof NoConnectionError) {
                             Log.e(TAG, "Error: No hay conexión a internet");
@@ -452,12 +449,6 @@ public class ManejadorBDTablas{
                     public void onResponse(JSONObject response) {
                         // Manejar la respuesta del servidor
                         Log.d(TAG, "Respuesta del servidor: " + response.toString());
-                        try {
-                            new Thread().wait(5000);
-                        } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
-                        }
-                        l.restartActivity();
                         // Aquí puedes procesar la respuesta del servidor si es necesario
                         return;
                     }
@@ -627,6 +618,74 @@ public class ManejadorBDTablas{
                                 Log.d(TAG, "Idea eliminada correctamente");
                             } else {
                                 Log.e(TAG, "Error al eliminar la idea: " + message);
+                            }
+                        } catch (JSONException e) {
+                            Log.e(TAG, "Error al procesar la respuesta JSON: " + e.getMessage());
+                        }
+                        callback.onResponse();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Manejar errores de la solicitud
+                        Log.e(TAG, "Error en la solicitud HTTP: " + error.toString());
+
+                        // Verificar el tipo de error
+                        if (error instanceof NoConnectionError) {
+                            Log.e(TAG, "Error: No hay conexión a internet");
+                        } else if (error instanceof TimeoutError) {
+                            Log.e(TAG, "Error: Tiempo de espera agotado");
+                        } else if (error instanceof ServerError) {
+                            Log.e(TAG, "Error: Error en el servidor");
+                        } else if (error instanceof AuthFailureError) {
+                            Log.e(TAG, "Error: Autenticación fallida");
+                        } else {
+                            // Otro tipo de error
+                            Log.e(TAG, "Error: " + error.getClass().getSimpleName());
+                        }
+
+                        // Verificar si hay un mensaje de error específico
+                        if (error.getMessage() != null) {
+                            Log.e(TAG, "Mensaje de error: " + error.getMessage());
+                        } else {
+                            Log.e(TAG, "Causa del error desconocida");
+                        }
+                    }
+                });
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                timeoutMillis,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        // Agregar la solicitud a la cola de solicitudes
+        mRequestQueue.add(request);
+    }
+
+    public void deletetask(int id,final ResponseCallback callback) {
+        JSONObject postData = new JSONObject();
+        try {
+            postData.put("id", id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL_DELETE_TASK, postData,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Manejar la respuesta del servidor
+                        try {
+                            String status = response.getString("status");
+                            String message = response.getString("message");
+                            Log.d(TAG, "Respuesta del servidor: " + message);
+
+                            if ("success".equals(status)) {
+                                Log.d(TAG, "Idea eliminada correctamente");
+                            } else {
+                                Log.e(TAG, "Error al eliminar la tarea: " + message);
                             }
                         } catch (JSONException e) {
                             Log.e(TAG, "Error al procesar la respuesta JSON: " + e.getMessage());

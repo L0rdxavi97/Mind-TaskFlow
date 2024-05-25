@@ -136,6 +136,23 @@ public class listactivity extends AppCompatActivity {
                             dialogInterface.dismiss();
                         }
                     });
+                    builder.setNegativeButton("Borrar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int which) {
+                            try {
+                                manejadorBDTablas.deletetask(jsonObjecttarea.getInt("id_tarea"), new ManejadorBDTablas.ResponseCallback() {
+                                    @Override
+                                    public void onResponse() {
+                                        visualizar();
+                                        //restartActivity();
+                                    }
+                                });
+                            } catch (JSONException e) {
+                                throw new RuntimeException(e);
+                            }
+                            dialogInterface.dismiss();
+                        }
+                    });
                 }
 
                 AlertDialog dialog = builder.create();
