@@ -138,12 +138,18 @@ public class listactivity extends AppCompatActivity {
                     TareaWrapper tareaWrapper = (TareaWrapper) parent.getItemAtPosition(position);
                     JSONObject jsonObjecttarea = tareaWrapper.getJsonObject();
                     builder.setTitle("Tarea");
+                    String n="";
                     try {
+                        if(jsonObjecttarea.getInt("Prioridad")==1){
+                            n="Si";
+                        }else{
+                            n="No";
+                        }
                         String message = "Titulo: " + jsonObjecttarea.getString("titulo_tarea") + "\n" +
                                 "Descripcion: " + jsonObjecttarea.getString("descripcion") + "\n" +
                                 "Grupo: " + jsonObjecttarea.getString("grupo_tarea") + "\n" +
                                 "Fecha: " + jsonObjecttarea.getString("fecha") + "\n" +
-                                "Prioridad: " + jsonObjecttarea.getInt("Prioridad");
+                                "Prioridad: " + n;
                         builder.setMessage(message);
                     } catch (JSONException e) {
                         throw new RuntimeException(e);
@@ -179,10 +185,11 @@ public class listactivity extends AppCompatActivity {
                                 savetext(listactivity.this,"titulo",jsonObjecttarea.getString("titulo_tarea"));
                                 savetext(listactivity.this,"descripcion",jsonObjecttarea.getString("descripcion"));
                                 savetext(listactivity.this,"grupo",jsonObjecttarea.getString("grupo_tarea"));
+                                saveint(listactivity.this,"prior",jsonObjecttarea.getInt("Prioridad"));
                             } catch (JSONException e) {
                                 throw new RuntimeException(e);
                             }
-                            intento_modidea();
+                            intento_modtask();
                         }
                     });
                 }
@@ -232,6 +239,12 @@ public class listactivity extends AppCompatActivity {
         visualizar();
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        visualizar();
+    }
+
     public void restartActivity() {
         Intent intent = getIntent();
         finish();
@@ -245,7 +258,7 @@ public class listactivity extends AppCompatActivity {
     }
 
     public void intento_modtask() {
-        Intent intent = new Intent(this, modidea.class);
+        Intent intent = new Intent(this, modtask.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
