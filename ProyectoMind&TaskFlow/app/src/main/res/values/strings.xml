@@ -13,4 +13,5 @@
     <string name="crt">Create</string>
     <string name="prit">Priority</string>
     <string name="hint">Hint</string>
+    <string name="cancel">Cancel</string>
 </resources>

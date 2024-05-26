@@ -40,6 +40,7 @@ public class create_user_activity extends AppCompatActivity {
         password = findViewById(R.id.ett_new_passwd);
         frase = findViewById(R.id.ett_new_r_hint);
         Button boton = findViewById(R.id.create_user_btn);
+        Button botoncan = findViewById(R.id.btncancel);
         ManejadorBDTablas manejadorBDTablas= ManejadorBDTablas.getInstance(getApplicationContext());
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,6 +65,13 @@ public class create_user_activity extends AppCompatActivity {
 
                 }
 
+            }
+        });
+
+        botoncan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intento();
             }
         });
     }

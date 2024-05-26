@@ -19,7 +19,7 @@ public class create_idea extends AppCompatActivity {
 
     public EditText titulo,descripcion,grupo;
     private static final String PREFS_NAME = "MyPrefsFile";
-    public Button boton;
+    public Button boton,btncan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +32,7 @@ public class create_idea extends AppCompatActivity {
         grupo=findViewById(R.id.grpidea);
         int id=getint(this,"user_id",0);
         boton=findViewById(R.id.crtideabtn);
+        btncan=findViewById(R.id.btncancelid);
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,6 +47,13 @@ public class create_idea extends AppCompatActivity {
                 }else{
                     System.out.println("Titulo y descripcion son obligatorios");
                 }
+            }
+        });
+
+        btncan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intento();
             }
         });
 
