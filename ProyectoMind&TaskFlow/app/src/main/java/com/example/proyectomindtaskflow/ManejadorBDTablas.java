@@ -77,7 +77,6 @@ public class ManejadorBDTablas{
             postData.put("valor1", username);
             postData.put("valor2", password);
             postData.put("valor3", frase);
-            Log.d(TAG, "JSON a enviar: " + postData.toString());
         } catch (JSONException e) {
             e.printStackTrace();
             return;
@@ -87,9 +86,7 @@ public class ManejadorBDTablas{
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        // Manejar la respuesta del servidor
                         Log.d(TAG, "Respuesta del servidor: " + response.toString());
-                        // Aquí puedes procesar la respuesta del servidor si es necesario
 
                         return;
                     }
@@ -97,10 +94,8 @@ public class ManejadorBDTablas{
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // Manejar errores de la solicitud
                         Log.e(TAG, "Error en la solicitud HTTP: " + error.toString());
 
-                        // Verificar el tipo de error
                         if (error instanceof NoConnectionError) {
                             Log.e(TAG, "Error: No hay conexión a internet");
                         } else if (error instanceof TimeoutError) {
@@ -110,11 +105,9 @@ public class ManejadorBDTablas{
                         } else if (error instanceof AuthFailureError) {
                             Log.e(TAG, "Error: Autenticación fallida");
                         } else {
-                            // Otro tipo de error
                             Log.e(TAG, "Error: " + error.getClass().getSimpleName());
                         }
 
-                        // Verificar si hay un mensaje de error específico
                         if (error.getMessage() != null) {
                             Log.e(TAG, "Mensaje de error: " + error.getMessage());
                         } else {
@@ -129,7 +122,6 @@ public class ManejadorBDTablas{
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-        // Agregar la solicitud a la cola de solicitudes
         mRequestQueue.add(request);
     }
 
@@ -138,24 +130,17 @@ public class ManejadorBDTablas{
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-                        // Procesar la respuesta JSON
                         try {
-                            // Iterar a través de cada objeto JSON (cada fila de la tabla)
                             System.out.println("Filas: "+response.length());
                             for (int i = 0; i < response.length(); i++) {
                                 JSONObject objeto = response.getJSONObject(i);
 
-                                // Obtener los valores de cada campo
                                 String campo1 = objeto.getString("Nombre");
                                 String campo2 = objeto.getString("Contraseña");
                                 String campo3 = objeto.getString("Frase_rec");
 
-                                // Aquí puedes utilizar los valores como desees (por ejemplo, mostrarlos en un TextView)
-                                // textView.setText(campo1 + ", " + campo2);
-
                                 System.out.println(campo1+" "+campo2+" "+campo3);
 
-                                // O puedes almacenar los datos en una lista, adaptador, etc.
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -166,7 +151,6 @@ public class ManejadorBDTablas{
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // Manejar errores de la solicitud HTTP
                         error.printStackTrace();
                     }
                 });
@@ -176,7 +160,6 @@ public class ManejadorBDTablas{
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-// Agregar la solicitud a la cola
         mRequestQueue.add(request);
     }
 
@@ -210,7 +193,6 @@ public class ManejadorBDTablas{
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        // Manejar la respuesta del servidor
                         Log.d(TAG, "Respuesta del servidor: " + response.toString());
                         ManejadorBDTablas.change_check_userName(true);
                         callback.onCheckUserNameResult(true);
@@ -235,11 +217,9 @@ public class ManejadorBDTablas{
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // Manejar errores de la solicitud
                         ManejadorBDTablas.change_check_userName(false);
                         Log.e(TAG, "Error en la solicitud HTTP: " + error.toString());
 
-                        // Verificar el tipo de error
                         if (error instanceof NoConnectionError) {
                             Log.e(TAG, "Error: No hay conexión a internet");
                         } else if (error instanceof TimeoutError) {
@@ -250,11 +230,9 @@ public class ManejadorBDTablas{
                             Log.d(TAG, "Error: Autenticación fallida");
                             Log.d(TAG, "Error: Usuario incorrecto");
                         } else {
-                            // Otro tipo de error
                             Log.e(TAG, "Error: " + error.getClass().getSimpleName());
                         }
 
-                        // Verificar si hay un mensaje de error específico
                         if (error.getMessage() != null) {
                             Log.e(TAG, "Mensaje de error: " + error.getMessage());
                         } else {
@@ -271,7 +249,6 @@ public class ManejadorBDTablas{
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-        // Agregar la solicitud a la cola de solicitudes
         mRequestQueue.add(request);
 
     }
@@ -290,7 +267,6 @@ public class ManejadorBDTablas{
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        // Manejar la respuesta del servidor
                         Log.d(TAG, "Respuesta del servidor: " + response.toString());
                         ManejadorBDTablas.change_check_user(true);
                         callback.onCheckUserResult(true);
@@ -320,11 +296,9 @@ public class ManejadorBDTablas{
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // Manejar errores de la solicitud
                         ManejadorBDTablas.change_check_user(false);
                         Log.e(TAG, "Error en la solicitud HTTP: " + error.toString());
 
-                        // Verificar el tipo de error
                         if (error instanceof NoConnectionError) {
                             Log.e(TAG, "Error: No hay conexión a internet");
                         } else if (error instanceof TimeoutError) {
@@ -335,11 +309,9 @@ public class ManejadorBDTablas{
                             Log.d(TAG, "Error: Autenticación fallida");
                             Log.d(TAG, "Error: Usuario incorrecto");
                         } else {
-                            // Otro tipo de error
                             Log.e(TAG, "Error: " + error.getClass().getSimpleName());
                         }
 
-                        // Verificar si hay un mensaje de error específico
                         if (error.getMessage() != null) {
                             Log.e(TAG, "Mensaje de error: " + error.getMessage());
                         } else {
@@ -356,7 +328,6 @@ public class ManejadorBDTablas{
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-        // Agregar la solicitud a la cola de solicitudes
         mRequestQueue.add(request);
 
     }
@@ -370,7 +341,6 @@ public class ManejadorBDTablas{
             postData.put("valor3", fecha);
             postData.put("valor4", grupo);
             postData.put("valor5", id_usuario);
-            Log.d(TAG, "JSON a enviar: " + postData.toString());
         } catch (JSONException e) {
             e.printStackTrace();
             return;
@@ -381,18 +351,14 @@ public class ManejadorBDTablas{
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        // Manejar la respuesta del servidor
                         Log.d(TAG, "Respuesta del servidor: " + response.toString());
-                        // Aquí puedes procesar la respuesta del servidor si es necesario
                         return;
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // Manejar errores de la solicitud
                         Log.e(TAG, "Error en la solicitud HTTP: " + error.toString());
-                        // Verificar el tipo de error
                         if (error instanceof NoConnectionError) {
                             Log.e(TAG, "Error: No hay conexión a internet");
                         } else if (error instanceof TimeoutError) {
@@ -402,11 +368,9 @@ public class ManejadorBDTablas{
                         } else if (error instanceof AuthFailureError) {
                             Log.e(TAG, "Error: Autenticación fallida");
                         } else {
-                            // Otro tipo de error
                             Log.e(TAG, "Error: " + error.getClass().getSimpleName());
                         }
 
-                        // Verificar si hay un mensaje de error específico
                         if (error.getMessage() != null) {
                             Log.e(TAG, "Mensaje de error: " + error.getMessage());
                         } else {
@@ -421,7 +385,6 @@ public class ManejadorBDTablas{
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-        // Agregar la solicitud a la cola de solicitudes
         mRequestQueue.add(request);
 
     }
@@ -437,7 +400,6 @@ public class ManejadorBDTablas{
             postData.put("valor4", grupo);
             postData.put("valor5", prioridad);
             postData.put("valor6", id_usuario);
-            Log.d(TAG, "JSON a enviar: " + postData.toString());
         } catch (JSONException e) {
             e.printStackTrace();
             return;
@@ -447,19 +409,15 @@ public class ManejadorBDTablas{
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        // Manejar la respuesta del servidor
                         Log.d(TAG, "Respuesta del servidor: " + response.toString());
-                        // Aquí puedes procesar la respuesta del servidor si es necesario
                         return;
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // Manejar errores de la solicitud
                         Log.e(TAG, "Error en la solicitud HTTP: " + error.toString());
 
-                        // Verificar el tipo de error
                         if (error instanceof NoConnectionError) {
                             Log.e(TAG, "Error: No hay conexión a internet");
                         } else if (error instanceof TimeoutError) {
@@ -469,11 +427,9 @@ public class ManejadorBDTablas{
                         } else if (error instanceof AuthFailureError) {
                             Log.e(TAG, "Error: Autenticación fallida");
                         } else {
-                            // Otro tipo de error
                             Log.e(TAG, "Error: " + error.getClass().getSimpleName());
                         }
 
-                        // Verificar si hay un mensaje de error específico
                         if (error.getMessage() != null) {
                             Log.e(TAG, "Mensaje de error: " + error.getMessage());
                         } else {
@@ -488,7 +444,6 @@ public class ManejadorBDTablas{
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-        // Agregar la solicitud a la cola de solicitudes
         mRequestQueue.add(request);
     }
 
@@ -515,7 +470,6 @@ public class ManejadorBDTablas{
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // Manejar errores de la solicitud HTTP
                         error.printStackTrace();
                     }
                 });
@@ -525,7 +479,6 @@ public class ManejadorBDTablas{
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-        // Agregar la solicitud a la cola
         mRequestQueue.add(request);
     }
 
@@ -551,7 +504,6 @@ public class ManejadorBDTablas{
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // Manejar errores de la solicitud HTTP
                         error.printStackTrace();
                     }
                 });
@@ -561,7 +513,6 @@ public class ManejadorBDTablas{
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-        // Agregar la solicitud a la cola
         mRequestQueue.add(request);
     }
 
@@ -608,7 +559,6 @@ public class ManejadorBDTablas{
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        // Manejar la respuesta del servidor
                         try {
                             String status = response.getString("status");
                             String message = response.getString("message");
@@ -628,10 +578,8 @@ public class ManejadorBDTablas{
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // Manejar errores de la solicitud
                         Log.e(TAG, "Error en la solicitud HTTP: " + error.toString());
 
-                        // Verificar el tipo de error
                         if (error instanceof NoConnectionError) {
                             Log.e(TAG, "Error: No hay conexión a internet");
                         } else if (error instanceof TimeoutError) {
@@ -641,11 +589,9 @@ public class ManejadorBDTablas{
                         } else if (error instanceof AuthFailureError) {
                             Log.e(TAG, "Error: Autenticación fallida");
                         } else {
-                            // Otro tipo de error
                             Log.e(TAG, "Error: " + error.getClass().getSimpleName());
                         }
 
-                        // Verificar si hay un mensaje de error específico
                         if (error.getMessage() != null) {
                             Log.e(TAG, "Mensaje de error: " + error.getMessage());
                         } else {
@@ -659,7 +605,6 @@ public class ManejadorBDTablas{
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-        // Agregar la solicitud a la cola de solicitudes
         mRequestQueue.add(request);
     }
 
@@ -676,7 +621,6 @@ public class ManejadorBDTablas{
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        // Manejar la respuesta del servidor
                         try {
                             String status = response.getString("status");
                             String message = response.getString("message");
@@ -696,10 +640,8 @@ public class ManejadorBDTablas{
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // Manejar errores de la solicitud
                         Log.e(TAG, "Error en la solicitud HTTP: " + error.toString());
 
-                        // Verificar el tipo de error
                         if (error instanceof NoConnectionError) {
                             Log.e(TAG, "Error: No hay conexión a internet");
                         } else if (error instanceof TimeoutError) {
@@ -709,11 +651,9 @@ public class ManejadorBDTablas{
                         } else if (error instanceof AuthFailureError) {
                             Log.e(TAG, "Error: Autenticación fallida");
                         } else {
-                            // Otro tipo de error
                             Log.e(TAG, "Error: " + error.getClass().getSimpleName());
                         }
 
-                        // Verificar si hay un mensaje de error específico
                         if (error.getMessage() != null) {
                             Log.e(TAG, "Mensaje de error: " + error.getMessage());
                         } else {
@@ -727,9 +667,122 @@ public class ManejadorBDTablas{
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-        // Agregar la solicitud a la cola de solicitudes
         mRequestQueue.add(request);
     }
+
+
+
+
+    public void modidea(String titulo, String descripcion, String grupo, int id_idea){
+        JSONObject postData = new JSONObject();
+        try {
+            postData.put("nuevo_valor1", titulo);
+            postData.put("nuevo_valor2", descripcion);
+            postData.put("nuevo_valor3", grupo);
+            postData.put("id", id_idea);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return;
+        }
+
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL_MOD_IDEA, postData,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(TAG, "Respuesta del servidor: " + response.toString());
+                        return;
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e(TAG, "Error en la solicitud HTTP: " + error.toString());
+                        if (error instanceof NoConnectionError) {
+                            Log.e(TAG, "Error: No hay conexión a internet");
+                        } else if (error instanceof TimeoutError) {
+                            Log.e(TAG, "Error: Tiempo de espera agotado");
+                        } else if (error instanceof ServerError) {
+                            Log.e(TAG, "Error: Error en el servidor");
+                        } else if (error instanceof AuthFailureError) {
+                            Log.e(TAG, "Error: Autenticación fallida");
+                        } else {
+                            Log.e(TAG, "Error: " + error.getClass().getSimpleName());
+                        }
+
+                        if (error.getMessage() != null) {
+                            Log.e(TAG, "Mensaje de error: " + error.getMessage());
+                        } else {
+                            Log.e(TAG, "Causa del error desconocida");
+                        }
+                    }
+                });
+
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                timeoutMillis,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        mRequestQueue.add(request);
+
+    }
+
+    public void modtask(String titulo, String descripcion, String grupo, int prioridad, int id_tarea){
+        JSONObject postData = new JSONObject();
+        try {
+            postData.put("nuevo_valor1", titulo);
+            postData.put("nuevo_valor2", descripcion);
+            postData.put("nuevo_valor3", grupo);
+            postData.put("nuevo_valor4", prioridad);
+            postData.put("id", id_tarea);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL_MOD_TASK, postData,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d(TAG, "Respuesta del servidor: " + response.toString());
+                        return;
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e(TAG, "Error en la solicitud HTTP: " + error.toString());
+                        if (error instanceof NoConnectionError) {
+                            Log.e(TAG, "Error: No hay conexión a internet");
+                        } else if (error instanceof TimeoutError) {
+                            Log.e(TAG, "Error: Tiempo de espera agotado");
+                        } else if (error instanceof ServerError) {
+                            Log.e(TAG, "Error: Error en el servidor");
+                        } else if (error instanceof AuthFailureError) {
+                            Log.e(TAG, "Error: Autenticación fallida");
+                        } else {
+                            Log.e(TAG, "Error: " + error.getClass().getSimpleName());
+                        }
+
+                        if (error.getMessage() != null) {
+                            Log.e(TAG, "Mensaje de error: " + error.getMessage());
+                        } else {
+                            Log.e(TAG, "Causa del error desconocida");
+                        }
+                    }
+                });
+
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                timeoutMillis,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        mRequestQueue.add(request);
+    }
+
+
 
 
 

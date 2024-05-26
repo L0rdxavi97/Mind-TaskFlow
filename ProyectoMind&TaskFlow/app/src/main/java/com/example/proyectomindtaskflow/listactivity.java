@@ -1,7 +1,9 @@
 package com.example.proyectomindtaskflow;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -31,6 +33,8 @@ import java.util.ArrayList;
 public class listactivity extends AppCompatActivity {
 
     public ListView listaview;
+
+    private static final String PREFS_NAME = "MyPrefsFile";
     public ManejadorBDTablas manejadorBDTablas;
     public Switch cambiadr;
     public FloatingActionButton boton;
@@ -115,6 +119,20 @@ public class listactivity extends AppCompatActivity {
                             dialogInterface.dismiss();
                         }
                     });
+                    builder.setNeutralButton("Modificar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            try {
+                                saveint(listactivity.this,"id",jsonObjectidea.getInt("id_idea"));
+                                savetext(listactivity.this,"titulo",jsonObjectidea.getString("titulo_idea"));
+                                savetext(listactivity.this,"descripcion",jsonObjectidea.getString("descripcion"));
+                                savetext(listactivity.this,"grupo",jsonObjectidea.getString("grupo_idea"));
+                            } catch (JSONException e) {
+                                throw new RuntimeException(e);
+                            }
+                            intento_modidea();
+                        }
+                    });
 
                 }else{
                     TareaWrapper tareaWrapper = (TareaWrapper) parent.getItemAtPosition(position);
@@ -151,6 +169,20 @@ public class listactivity extends AppCompatActivity {
                                 throw new RuntimeException(e);
                             }
                             dialogInterface.dismiss();
+                        }
+                    });
+                    builder.setNeutralButton("Modificar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            try {
+                                saveint(listactivity.this,"id",jsonObjecttarea.getInt("id_tarea"));
+                                savetext(listactivity.this,"titulo",jsonObjecttarea.getString("titulo_tarea"));
+                                savetext(listactivity.this,"descripcion",jsonObjecttarea.getString("descripcion"));
+                                savetext(listactivity.this,"grupo",jsonObjecttarea.getString("grupo_tarea"));
+                            } catch (JSONException e) {
+                                throw new RuntimeException(e);
+                            }
+                            intento_modidea();
                         }
                     });
                 }
@@ -204,6 +236,32 @@ public class listactivity extends AppCompatActivity {
         Intent intent = getIntent();
         finish();
         startActivity(intent);
+    }
+
+    public void intento_modidea() {
+        Intent intent = new Intent(this, modidea.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
+    }
+
+    public void intento_modtask() {
+        Intent intent = new Intent(this, modidea.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
+    }
+
+    public static void savetext(Context context, String key, String text) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(key, text);
+        editor.apply();
+    }
+
+    public static void saveint(Context context, String key, int text) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(key, text);
+        editor.apply();
     }
 
 }
