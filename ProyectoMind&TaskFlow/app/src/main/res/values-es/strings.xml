@@ -14,4 +14,7 @@
     <string name="crt">Crear</string>
     <string name="prit">Prioridad</string>
     <string name="hint">Pista</string>
+    <string name="cancel">Cancelar</string>
+    <string name="upd">Actualizar</string>
+    <string name="search">Buscar</string>
 </resources>

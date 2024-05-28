@@ -2,6 +2,7 @@ package com.example.proyectomindtaskflow;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
@@ -48,6 +49,8 @@ public class ManejadorBDTablas{
 
     private static final String URL_CHECK_USER = "http://jacecab.000webhostapp.com/check_user.php";
     private static final String URL_CHECK_USERNAME = "http://jacecab.000webhostapp.com/check_userName.php";
+    private static final String URL_GET_IDEA_LIKE = "http://jacecab.000webhostapp.com/get_ideaLIKE.php";
+    private static final String URL_GET_TASK_LIKE = "http://jacecab.000webhostapp.com/get_taskLIKE.php";
 
     private static boolean a;
     private static boolean b;
@@ -773,6 +776,82 @@ public class ManejadorBDTablas{
                     }
                 });
 
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                timeoutMillis,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        mRequestQueue.add(request);
+    }
+
+    public void getIdeaLIKE(String s, final CustomAdapterIdeas arrayAdapter) {
+        String url = URL_GET_IDEA_LIKE + "?search=" + Uri.encode(s);
+
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        try {
+                            List<IdeaWrapper> ideas = new ArrayList<>();
+                            for (int i = 0; i < response.length(); i++) {
+                                ideas.add(new IdeaWrapper(response.getJSONObject(i)));
+                            }
+                            arrayAdapter.clear();
+                            arrayAdapter.addAll(ideas);
+                            arrayAdapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        arrayAdapter.clear();
+                        arrayAdapter.notifyDataSetChanged();
+                        error.printStackTrace();
+                    }
+                });
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                timeoutMillis,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        mRequestQueue.add(request);
+    }
+
+
+    public void getTaskLIKE(String s,final CustomAdapterTareas arrayAdapter){
+        String url = URL_GET_TASK_LIKE + "?search=" + Uri.encode(s);
+
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        try {
+                            List<TareaWrapper> ideas = new ArrayList<>();
+                            for (int i = 0; i < response.length(); i++) {
+                                ideas.add(new TareaWrapper(response.getJSONObject(i)));
+                            }
+                            arrayAdapter.clear();
+                            arrayAdapter.addAll(ideas);
+                            arrayAdapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        arrayAdapter.clear();
+                        arrayAdapter.notifyDataSetChanged();
+                        error.printStackTrace();
+                    }
+                });
 
         request.setRetryPolicy(new DefaultRetryPolicy(
                 timeoutMillis,

@@ -7,10 +7,13 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -41,6 +44,7 @@ public class listactivity extends AppCompatActivity {
     private CustomAdapterIdeas ideasAdapter;
     private CustomAdapterTareas adapterTareas;
     public TextView tarea,idea;
+    public EditText busca;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -52,6 +56,7 @@ public class listactivity extends AppCompatActivity {
         boton=findViewById(R.id.floatbtn);
         tarea=findViewById(R.id.textViewtarea);
         idea=findViewById(R.id.textViewidea);
+        busca=findViewById(R.id.searchett);
 
         ideasAdapter = new CustomAdapterIdeas(this, new ArrayList<>());
         adapterTareas=new CustomAdapterTareas(this,new ArrayList<>());
@@ -200,6 +205,27 @@ public class listactivity extends AppCompatActivity {
             }
         });
 
+        busca.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (!s.toString().isEmpty()) {
+                    visualizarLIKE(s.toString());
+                }else{
+                    visualizar();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
 
     }
 
@@ -215,6 +241,23 @@ public class listactivity extends AppCompatActivity {
             tarea.setTypeface(tarea.getTypeface(), Typeface.BOLD);
             listaview.setAdapter(adapterTareas);
             manejadorBDTablas.getTask(adapterTareas);
+            listaview.setAdapter(adapterTareas);
+        }
+
+    }
+
+    public void visualizarLIKE(String s){
+        if(!cambiadr.isChecked()){
+            idea.setTypeface(idea.getTypeface(), Typeface.BOLD);
+            tarea.setTypeface(null, Typeface.NORMAL);
+            listaview.setAdapter(ideasAdapter);
+            manejadorBDTablas.getIdeaLIKE(s,ideasAdapter);
+            listaview.setAdapter(ideasAdapter);
+        }else{
+            idea.setTypeface(null, Typeface.NORMAL);
+            tarea.setTypeface(tarea.getTypeface(), Typeface.BOLD);
+            listaview.setAdapter(adapterTareas);
+            manejadorBDTablas.getTaskLIKE(s,adapterTareas);
             listaview.setAdapter(adapterTareas);
         }
 
