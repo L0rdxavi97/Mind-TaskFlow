@@ -33,6 +33,7 @@ public class create_user_activity extends AppCompatActivity {
     public EditText password;
     public EditText frase;
     public ImageView imagen;
+    private Uri imageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,7 @@ public class create_user_activity extends AppCompatActivity {
                 String username = nombre.getText().toString();
                 String userPassword = password.getText().toString();
                 String hintPhrase = frase.getText().toString();
-                if(nombre.getText().toString().isEmpty() || password.getText().toString().isEmpty() || frase.getText().toString().isEmpty()){
+                if(nombre.getText().toString().isEmpty() || password.getText().toString().isEmpty() || frase.getText().toString().isEmpty() || imageUri == null){
                     System.out.println("Campos debe estar llenos");
                 }else {
                     manejadorBDTablas.check_userName(nombre.getText().toString(), new CheckUserNameCallback() {
@@ -63,7 +64,7 @@ public class create_user_activity extends AppCompatActivity {
                             if (success) {
                                 System.out.println("Nombre ya usado");
                             } else {
-                                manejadorBDTablas.createUser(username, userPassword, hintPhrase);
+                                manejadorBDTablas.uploadUserData(username, userPassword, hintPhrase, imageUri);
                                 intento();
                             }
                         }
@@ -109,8 +110,8 @@ public class create_user_activity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri uri = data.getData();
-            imagen.setImageURI(uri);
+            imageUri = data.getData();
+            imagen.setImageURI(imageUri);
         }
     }
 }

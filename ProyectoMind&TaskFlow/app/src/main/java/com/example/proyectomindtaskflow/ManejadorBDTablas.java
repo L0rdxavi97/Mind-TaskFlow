@@ -2,7 +2,9 @@ package com.example.proyectomindtaskflow;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
@@ -23,9 +25,19 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ManejadorBDTablas{
     public final int timeoutMillis = 10000;
@@ -74,12 +86,13 @@ public class ManejadorBDTablas{
         void onResponse();
     }
 
-    public void createUser(String username, String password, String frase) {
+    public void createUser(String username, String password, String frase, String imageUrl) {
         JSONObject postData = new JSONObject();
         try {
             postData.put("valor1", username);
             postData.put("valor2", password);
             postData.put("valor3", frase);
+            postData.put("imageUrl", imageUrl);
         } catch (JSONException e) {
             e.printStackTrace();
             return;
@@ -863,6 +876,70 @@ public class ManejadorBDTablas{
 
 
 
+    public void uploadUserData(String username, String password, String frase, Uri imageUri) {
+        // Crear un archivo desde la URI de la imagen
+        File file = new File(getRealPathFromURI(imageUri));
 
+        // Subir la imagen al servidor
+        uploadImage(file, new UploadCallback() {
+            @Override
+            public void onUploadSuccess(String imageUrl) {
+                // Crear el usuario con la URL de la imagen
+                createUser(username, password, frase, imageUrl);
+            }
 
+            @Override
+            public void onUploadFailure(String error) {
+                Log.e(TAG, "Error al subir la imagen: " + error);
+            }
+        });
+    }
+
+    private String getRealPathFromURI(Uri uri) {
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = contexto.getContentResolver().query(uri, projection, null, null, null);
+        if (cursor == null) return null;
+        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        String result = cursor.getString(column_index);
+        cursor.close();
+        return result;
+    }
+
+    private interface UploadCallback {
+        void onUploadSuccess(String imageUrl);
+        void onUploadFailure(String error);
+    }
+
+    private void uploadImage(File file, UploadCallback callback) {
+        RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+        MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://jacecab.000webhostapp.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        ApiService apiService = retrofit.create(ApiService.class);
+        Call<ResponseBody> call = apiService.uploadImage(body);
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    // Obtener la URL de la imagen subida desde la respuesta del servidor
+                    String imageUrl = "https://jacecab.000webhostapp.com/uploads/" + file.getName();
+                    callback.onUploadSuccess(imageUrl);
+                } else {
+                    callback.onUploadFailure("Error en la respuesta del servidor");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                callback.onUploadFailure(t.getMessage());
+            }
+        });
+    }
 }
+
