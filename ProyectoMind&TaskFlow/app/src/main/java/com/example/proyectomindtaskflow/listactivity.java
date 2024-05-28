@@ -107,37 +107,43 @@ public class listactivity extends AppCompatActivity {
                             dialogInterface.dismiss();
                         }
                     });
-                    builder.setNegativeButton("Borrar", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            try {
-                                manejadorBDTablas.deleteidea(jsonObjectidea.getInt("id_idea"), new ManejadorBDTablas.ResponseCallback() {
-                                    @Override
-                                    public void onResponse() {
-                                        visualizar();
-                                        restartActivity();
+                    try {
+                        if(jsonObjectidea.getInt("id_usuario")==getint(listactivity.this,"user_id",0)){
+                            builder.setNegativeButton("Borrar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    try {
+                                        manejadorBDTablas.deleteidea(jsonObjectidea.getInt("id_idea"), new ManejadorBDTablas.ResponseCallback() {
+                                            @Override
+                                            public void onResponse() {
+                                                visualizar();
+                                                restartActivity();
+                                            }
+                                        });
+                                    } catch (JSONException e) {
+                                        throw new RuntimeException(e);
                                     }
-                                });
-                            } catch (JSONException e) {
-                                throw new RuntimeException(e);
-                            }
-                            dialogInterface.dismiss();
+                                    dialogInterface.dismiss();
+                                }
+                            });
+                            builder.setNeutralButton("Modificar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    try {
+                                        saveint(listactivity.this,"id",jsonObjectidea.getInt("id_idea"));
+                                        savetext(listactivity.this,"titulo",jsonObjectidea.getString("titulo_idea"));
+                                        savetext(listactivity.this,"descripcion",jsonObjectidea.getString("descripcion"));
+                                        savetext(listactivity.this,"grupo",jsonObjectidea.getString("grupo_idea"));
+                                    } catch (JSONException e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                    intento_modidea();
+                                }
+                            });
                         }
-                    });
-                    builder.setNeutralButton("Modificar", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            try {
-                                saveint(listactivity.this,"id",jsonObjectidea.getInt("id_idea"));
-                                savetext(listactivity.this,"titulo",jsonObjectidea.getString("titulo_idea"));
-                                savetext(listactivity.this,"descripcion",jsonObjectidea.getString("descripcion"));
-                                savetext(listactivity.this,"grupo",jsonObjectidea.getString("grupo_idea"));
-                            } catch (JSONException e) {
-                                throw new RuntimeException(e);
-                            }
-                            intento_modidea();
-                        }
-                    });
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
 
                 }else{
                     TareaWrapper tareaWrapper = (TareaWrapper) parent.getItemAtPosition(position);
@@ -165,38 +171,44 @@ public class listactivity extends AppCompatActivity {
                             dialogInterface.dismiss();
                         }
                     });
-                    builder.setNegativeButton("Borrar", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int which) {
-                            try {
-                                manejadorBDTablas.deletetask(jsonObjecttarea.getInt("id_tarea"), new ManejadorBDTablas.ResponseCallback() {
-                                    @Override
-                                    public void onResponse() {
-                                        visualizar();
-                                        //restartActivity();
+                    try {
+                        if(jsonObjecttarea.getInt("id_usuario")==getint(listactivity.this,"user_id",0)){
+                            builder.setNegativeButton("Borrar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int which) {
+                                    try {
+                                        manejadorBDTablas.deletetask(jsonObjecttarea.getInt("id_tarea"), new ManejadorBDTablas.ResponseCallback() {
+                                            @Override
+                                            public void onResponse() {
+                                                visualizar();
+                                                //restartActivity();
+                                            }
+                                        });
+                                    } catch (JSONException e) {
+                                        throw new RuntimeException(e);
                                     }
-                                });
-                            } catch (JSONException e) {
-                                throw new RuntimeException(e);
-                            }
-                            dialogInterface.dismiss();
+                                    dialogInterface.dismiss();
+                                }
+                            });
+                            builder.setNeutralButton("Modificar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    try {
+                                        saveint(listactivity.this,"id",jsonObjecttarea.getInt("id_tarea"));
+                                        savetext(listactivity.this,"titulo",jsonObjecttarea.getString("titulo_tarea"));
+                                        savetext(listactivity.this,"descripcion",jsonObjecttarea.getString("descripcion"));
+                                        savetext(listactivity.this,"grupo",jsonObjecttarea.getString("grupo_tarea"));
+                                        saveint(listactivity.this,"prior",jsonObjecttarea.getInt("Prioridad"));
+                                    } catch (JSONException e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                    intento_modtask();
+                                }
+                            });
                         }
-                    });
-                    builder.setNeutralButton("Modificar", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            try {
-                                saveint(listactivity.this,"id",jsonObjecttarea.getInt("id_tarea"));
-                                savetext(listactivity.this,"titulo",jsonObjecttarea.getString("titulo_tarea"));
-                                savetext(listactivity.this,"descripcion",jsonObjecttarea.getString("descripcion"));
-                                savetext(listactivity.this,"grupo",jsonObjecttarea.getString("grupo_tarea"));
-                                saveint(listactivity.this,"prior",jsonObjecttarea.getInt("Prioridad"));
-                            } catch (JSONException e) {
-                                throw new RuntimeException(e);
-                            }
-                            intento_modtask();
-                        }
-                    });
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
 
                 AlertDialog dialog = builder.create();
@@ -318,6 +330,11 @@ public class listactivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt(key, text);
         editor.apply();
+    }
+
+    public static int getint(Context context, String key, int defaultValue) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getInt(key, defaultValue);
     }
 
 }
