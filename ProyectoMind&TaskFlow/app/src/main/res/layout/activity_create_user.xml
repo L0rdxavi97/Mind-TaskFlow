@@ -54,8 +54,8 @@
 
     <Button
         android:id="@+id/create_user_btn"
-        android:layout_width="186dp"
-        android:layout_height="60dp"
+        android:layout_width="208dp"
+        android:layout_height="74dp"
         android:text="@string/btncrt"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -77,4 +77,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.976" />
+
+    <ImageView
+        android:id="@+id/newuserimg"
+        android:layout_width="188dp"
+        android:layout_height="203dp"
+        android:contentDescription="TODO"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.623"
+        app:srcCompat="@drawable/logo" />
 </androidx.constraintlayout.widget.ConstraintLayout>
