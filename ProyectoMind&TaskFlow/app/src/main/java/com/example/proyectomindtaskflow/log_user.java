@@ -1,22 +1,20 @@
 package com.example.proyectomindtaskflow;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import com.bumptech.glide.Glide;
 
 public class log_user extends AppCompatActivity {
     private static final String PREFS_NAME = "MyPrefsFile";
@@ -24,6 +22,7 @@ public class log_user extends AppCompatActivity {
     public ManejadorBDTablas manejadorBDTablas;
     public TextView nombre;
     private static final String TAG = "LogActivity";
+    public ImageView imageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -33,6 +32,20 @@ public class log_user extends AppCompatActivity {
         manejadorBDTablas= ManejadorBDTablas.getInstance(getApplicationContext());
         nombre=findViewById(R.id.userNamelbl);
         nombre.setText(gettext(this,"user_name",""));
+        imageView=findViewById(R.id.imageViewlog);
+        String n=gettext(this,"user_name","");
+        System.out.println(n);
+        if(n!=null){
+            try {
+                Uri imageUri = Uri.parse(n);
+                Glide.with(this)
+                        .load(imageUri)
+                        .into(imageView);
+            } catch (Exception e) {
+                Log.e(TAG, "Error cargando la imagen con Glide", e);
+            }
+        }
+
         log.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

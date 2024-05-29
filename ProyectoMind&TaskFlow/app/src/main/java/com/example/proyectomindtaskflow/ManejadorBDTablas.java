@@ -290,6 +290,7 @@ public class ManejadorBDTablas{
                             JSONObject user = null;
                             int userId;
                             String username;
+                            String imagen;
                             try {
                                 user = response.getJSONObject("user");
                             } catch (JSONException e) {
@@ -298,8 +299,10 @@ public class ManejadorBDTablas{
                             try {
                                  userId = user.getInt("id_usuario");
                                  username= user.getString("Nombre");
+                                 imagen=user.getString("Imagen");
                                 saveint(contexto,"user_id",userId);
                                 savetext(contexto,"user_name",username);
+                                savetext(contexto,"imagen",imagen);
                             } catch (JSONException e) {
                                 throw new RuntimeException(e);
                             }
@@ -931,7 +934,7 @@ public class ManejadorBDTablas{
                     String imageUrl = "https://jacecab.000webhostapp.com/uploads/" + file.getName();
                     callback.onUploadSuccess(imageUrl);
                 } else {
-                    callback.onUploadFailure("Error en la respuesta del servidor");
+                    callback.onUploadFailure("Error en la respuesta del servidor "+response.toString());
                 }
             }
 
