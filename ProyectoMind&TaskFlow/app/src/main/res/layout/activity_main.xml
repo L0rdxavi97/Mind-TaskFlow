@@ -42,7 +42,7 @@
         android:layout_height="57dp"
         android:ems="10"
         android:hint="@string/pswd"
-        android:inputType="text"
+        android:inputType="text|textPassword"
         android:maxLength="20"
         android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
