@@ -15,6 +15,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.GlideException;
 
 public class log_user extends AppCompatActivity {
     private static final String PREFS_NAME = "MyPrefsFile";
@@ -33,7 +34,7 @@ public class log_user extends AppCompatActivity {
         nombre=findViewById(R.id.userNamelbl);
         nombre.setText(gettext(this,"user_name",""));
         imageView=findViewById(R.id.imageViewlog);
-        String n=gettext(this,"user_name","");
+        String n=gettext(this,"imagen","");
         System.out.println(n);
         if(n!=null && !n.isEmpty()){
             try {
@@ -43,7 +44,10 @@ public class log_user extends AppCompatActivity {
                         .into(imageView);
             } catch (Exception e) {
                 Log.e(TAG, "Error cargando la imagen con Glide", e);
+                imageView.setImageAlpha(R.drawable.logo);
             }
+        }else {
+            imageView.setImageAlpha(R.drawable.logo);
         }
 
         log.setOnClickListener(new View.OnClickListener() {
