@@ -35,7 +35,7 @@ public class log_user extends AppCompatActivity {
         imageView=findViewById(R.id.imageViewlog);
         String n=gettext(this,"user_name","");
         System.out.println(n);
-        if(n!=null){
+        if(n!=null && !n.isEmpty()){
             try {
                 Uri imageUri = Uri.parse(n);
                 Glide.with(this)
