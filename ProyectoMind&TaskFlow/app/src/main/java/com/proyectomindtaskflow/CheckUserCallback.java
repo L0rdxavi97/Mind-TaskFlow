@@ -1,4 +1,4 @@
-package com.example.proyectomindtaskflow;
+package com.proyectomindtaskflow;
 
 public interface CheckUserCallback {
     void onCheckUserResult(boolean success);

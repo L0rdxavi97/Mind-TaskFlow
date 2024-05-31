@@ -1,4 +1,4 @@
-package com.example.proyectomindtaskflow;
+package com.proyectomindtaskflow;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,51 +11,60 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-public class create_task extends AppCompatActivity {
+import com.proyectomindtaskflow.R;
 
+
+public class modtask extends AppCompatActivity {
     public EditText titulo,descripcion,grupo;
-    public CheckBox prioridad;
     private static final String PREFS_NAME = "MyPrefsFile";
     public Button boton,btncan;
-
+    CheckBox cb;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_task);
+        setContentView(R.layout.activity_modtask);
+
         ManejadorBDTablas manejadorBDTablas= ManejadorBDTablas.getInstance(getApplicationContext());
-        prioridad=findViewById(R.id.priortask);
-        titulo=findViewById(R.id.tittask);
-        descripcion=findViewById(R.id.desctask);
-        grupo=findViewById(R.id.grptask);
-        int id=getint(this,"user_id",0);
-        boton=findViewById(R.id.crttaskbtn);
-        btncan=findViewById(R.id.btncanceltask);
+        titulo=findViewById(R.id.ntittask);
+        descripcion=findViewById(R.id.ndesctask);
+        grupo=findViewById(R.id.ngrptask);
+        cb=findViewById(R.id.npriortask);
+        int id=getint(this,"id",0);
+        String titu=gettext(this,"titulo","");
+        String desc=gettext(this,"descripcion","");
+        String grop=gettext(this,"grupo","");
+        int prior=getint(this,"prior",0);
+        if(prior==1){
+            cb.setChecked(true);
+        }else{
+            cb.setChecked(false);
+        }
+        titulo.setText(titu);
+        descripcion.setText(desc);
+        grupo.setText(grop);
+        boton=findViewById(R.id.updtaskbtn);
+        btncan=findViewById(R.id.canupdtaskbtn);
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String tit=titulo.getText().toString();
                 String d=descripcion.getText().toString();
                 String g=grupo.getText().toString();
-                boolean p=prioridad.isChecked();
-                int prt;
-                if(p){
-                    prt=1;
+                int p;
+                if(cb.isChecked()){
+                    p=1;
                 }else{
-                    prt=2;
+                    p=2;
                 }
 
                 if(tit!="" && d!=""){
-                    manejadorBDTablas.createtask(tit,d,g,prt,id);
+                    manejadorBDTablas.modtask(tit,d,g,p,id);
                     intento();
                 }else{
-                    Toast.makeText(create_task.this,"Titulo y descripcion es obligatorio",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(modtask.this,"Titulo y descripcion es obligatorio",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -66,6 +75,9 @@ public class create_task extends AppCompatActivity {
                 intento();
             }
         });
+
+
+
     }
 
     public static int getint(Context context, String key, int defaultValue) {
@@ -73,17 +85,14 @@ public class create_task extends AppCompatActivity {
         return sharedPreferences.getInt(key, defaultValue);
     }
 
+    public static String gettext(Context context, String key, String defaultValue) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getString(key, defaultValue);
+    }
+
     public void intento() {
         Intent intent = new Intent(this, listactivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        titulo.setText("");
-        descripcion.setText("");
-        grupo.setText("");
     }
 }

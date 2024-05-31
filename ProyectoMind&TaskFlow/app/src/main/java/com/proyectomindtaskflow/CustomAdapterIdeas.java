@@ -1,4 +1,4 @@
-package com.example.proyectomindtaskflow;
+package com.proyectomindtaskflow;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,13 +7,17 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.proyectomindtaskflow.R;
+
 import java.util.List;
 
-public class CustomAdapterTareas extends ArrayAdapter<TareaWrapper> {
-    private final Context context;
-    private final List<TareaWrapper> items;
 
-    public CustomAdapterTareas(Context context, List<TareaWrapper> items) {
+public class CustomAdapterIdeas extends ArrayAdapter<IdeaWrapper> {
+
+    private final Context context;
+    private final List<IdeaWrapper> items;
+
+    public CustomAdapterIdeas(Context context, List<IdeaWrapper> items) {
         super(context, R.layout.list_item, items);
         this.context = context;
         this.items = items;
@@ -29,7 +33,7 @@ public class CustomAdapterTareas extends ArrayAdapter<TareaWrapper> {
         TextView titleView = convertView.findViewById(R.id.itemTitle);
         TextView subtitleView = convertView.findViewById(R.id.itemSubtitle);
 
-        TareaWrapper currentItem = items.get(position);
+        IdeaWrapper currentItem = items.get(position);
         titleView.setText(currentItem.getTitle());
         subtitleView.setText(currentItem.getDescription());
 

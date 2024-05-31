@@ -1,4 +1,4 @@
-package com.example.proyectomindtaskflow;
+package com.proyectomindtaskflow;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,18 +7,19 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-public class create_idea extends AppCompatActivity {
+import com.proyectomindtaskflow.R;
+
+
+public class create_task extends AppCompatActivity {
 
     public EditText titulo,descripcion,grupo;
+    public CheckBox prioridad;
     private static final String PREFS_NAME = "MyPrefsFile";
     public Button boton,btncan;
 
@@ -26,27 +27,34 @@ public class create_idea extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_idea);
+        setContentView(R.layout.activity_create_task);
         ManejadorBDTablas manejadorBDTablas= ManejadorBDTablas.getInstance(getApplicationContext());
-        titulo=findViewById(R.id.titidea);
-        descripcion=findViewById(R.id.descidea);
-        grupo=findViewById(R.id.grpidea);
+        prioridad=findViewById(R.id.priortask);
+        titulo=findViewById(R.id.tittask);
+        descripcion=findViewById(R.id.desctask);
+        grupo=findViewById(R.id.grptask);
         int id=getint(this,"user_id",0);
-        boton=findViewById(R.id.crtideabtn);
-        btncan=findViewById(R.id.btncancelid);
+        boton=findViewById(R.id.crttaskbtn);
+        btncan=findViewById(R.id.btncanceltask);
         boton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String tit=titulo.getText().toString();
                 String d=descripcion.getText().toString();
                 String g=grupo.getText().toString();
-
+                boolean p=prioridad.isChecked();
+                int prt;
+                if(p){
+                    prt=1;
+                }else{
+                    prt=2;
+                }
 
                 if(tit!="" && d!=""){
-                    manejadorBDTablas.createidea(tit,d,g,id);
+                    manejadorBDTablas.createtask(tit,d,g,prt,id);
                     intento();
                 }else{
-                    Toast.makeText(create_idea.this,"Titulo y descripcion es obligatorio",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(create_task.this,"Titulo y descripcion es obligatorio",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -57,9 +65,6 @@ public class create_idea extends AppCompatActivity {
                 intento();
             }
         });
-
-
-
     }
 
     public static int getint(Context context, String key, int defaultValue) {

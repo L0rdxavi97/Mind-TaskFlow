@@ -1,4 +1,4 @@
-package com.example.proyectomindtaskflow;
+package com.proyectomindtaskflow;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,7 +16,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.GlideException;
+import com.proyectomindtaskflow.R;
+
 
 public class log_user extends AppCompatActivity {
     private static final String PREFS_NAME = "MyPrefsFile";

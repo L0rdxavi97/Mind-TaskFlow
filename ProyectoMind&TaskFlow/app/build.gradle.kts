@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.proyectomindtaskflow"
+    namespace = "com.proyectomindtaskflow"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.proyectomindtaskflow"
+        applicationId = "com.proyectomindtaskflow"
         minSdk = 29
         targetSdk = 34
         versionCode = 1
