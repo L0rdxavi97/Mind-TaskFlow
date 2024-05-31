@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -52,7 +53,7 @@ public class modidea extends AppCompatActivity {
                     manejadorBDTablas.modidea(tit,d,g,id);
                     intento();
                 }else{
-                    System.out.println("Titulo y descripcion son obligatorios");
+                    Toast.makeText(modidea.this,"Titulo y descripcion es obligatorio",Toast.LENGTH_SHORT).show();
                 }
             }
         });

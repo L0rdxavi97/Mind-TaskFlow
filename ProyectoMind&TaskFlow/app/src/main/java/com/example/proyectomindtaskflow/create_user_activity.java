@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -56,13 +57,13 @@ public class create_user_activity extends AppCompatActivity {
                 String userPassword = password.getText().toString();
                 String hintPhrase = frase.getText().toString();
                 if(nombre.getText().toString().isEmpty() || password.getText().toString().isEmpty() || frase.getText().toString().isEmpty() || imageUri == null){
-                    System.out.println("Campos debe estar llenos");
+                    Toast.makeText(create_user_activity.this,"Los campos deben estar llenos",Toast.LENGTH_SHORT).show();
                 }else {
                     manejadorBDTablas.check_userName(nombre.getText().toString(), new CheckUserNameCallback() {
                         @Override
                         public void onCheckUserNameResult(boolean success) {
                             if (success) {
-                                System.out.println("Nombre ya usado");
+                                Toast.makeText(create_user_activity.this,"Nombre ya usado",Toast.LENGTH_SHORT).show();
                             } else {
                                 manejadorBDTablas.uploadUserData(username, userPassword, hintPhrase, imageUri);
                                 intento();

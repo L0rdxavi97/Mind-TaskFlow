@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -103,7 +104,6 @@ public class ManejadorBDTablas{
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d(TAG, "Respuesta del servidor: " + response.toString());
-
                         return;
                     }
                 },
@@ -111,7 +111,7 @@ public class ManejadorBDTablas{
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.e(TAG, "Error en la solicitud HTTP: " + error.toString());
-
+                        Toast.makeText(contexto,"Error en el servidor, vuelve a intentar mas tarde",Toast.LENGTH_SHORT).show();
                         if (error instanceof NoConnectionError) {
                             Log.e(TAG, "Error: No hay conexión a internet");
                         } else if (error instanceof TimeoutError) {
@@ -235,7 +235,7 @@ public class ManejadorBDTablas{
                     public void onErrorResponse(VolleyError error) {
                         ManejadorBDTablas.change_check_userName(false);
                         Log.e(TAG, "Error en la solicitud HTTP: " + error.toString());
-
+                        Toast.makeText(contexto,"Error en el servidor, vuelve a intentar mas tarde",Toast.LENGTH_SHORT).show();
                         if (error instanceof NoConnectionError) {
                             Log.e(TAG, "Error: No hay conexión a internet");
                         } else if (error instanceof TimeoutError) {
@@ -317,7 +317,7 @@ public class ManejadorBDTablas{
                     public void onErrorResponse(VolleyError error) {
                         ManejadorBDTablas.change_check_user(false);
                         Log.e(TAG, "Error en la solicitud HTTP: " + error.toString());
-
+                        Toast.makeText(contexto,"Error en el servidor, vuelve a intentar mas tarde",Toast.LENGTH_SHORT).show();
                         if (error instanceof NoConnectionError) {
                             Log.e(TAG, "Error: No hay conexión a internet");
                         } else if (error instanceof TimeoutError) {
@@ -378,6 +378,7 @@ public class ManejadorBDTablas{
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.e(TAG, "Error en la solicitud HTTP: " + error.toString());
+                        Toast.makeText(contexto,"Error en el servidor, vuelve a intentar mas tarde",Toast.LENGTH_SHORT).show();
                         if (error instanceof NoConnectionError) {
                             Log.e(TAG, "Error: No hay conexión a internet");
                         } else if (error instanceof TimeoutError) {
@@ -436,7 +437,7 @@ public class ManejadorBDTablas{
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.e(TAG, "Error en la solicitud HTTP: " + error.toString());
-
+                        Toast.makeText(contexto,"Error en el servidor, vuelve a intentar mas tarde",Toast.LENGTH_SHORT).show();
                         if (error instanceof NoConnectionError) {
                             Log.e(TAG, "Error: No hay conexión a internet");
                         } else if (error instanceof TimeoutError) {
@@ -523,6 +524,7 @@ public class ManejadorBDTablas{
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(contexto,"Error en el servidor, vuelve a intentar mas tarde",Toast.LENGTH_SHORT).show();
                         error.printStackTrace();
                     }
                 });
@@ -598,7 +600,7 @@ public class ManejadorBDTablas{
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.e(TAG, "Error en la solicitud HTTP: " + error.toString());
-
+                        Toast.makeText(contexto,"Error en el servidor, vuelve a intentar mas tarde",Toast.LENGTH_SHORT).show();
                         if (error instanceof NoConnectionError) {
                             Log.e(TAG, "Error: No hay conexión a internet");
                         } else if (error instanceof TimeoutError) {
@@ -660,7 +662,7 @@ public class ManejadorBDTablas{
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.e(TAG, "Error en la solicitud HTTP: " + error.toString());
-
+                        Toast.makeText(contexto,"Error en el servidor, vuelve a intentar mas tarde",Toast.LENGTH_SHORT).show();
                         if (error instanceof NoConnectionError) {
                             Log.e(TAG, "Error: No hay conexión a internet");
                         } else if (error instanceof TimeoutError) {
@@ -717,6 +719,7 @@ public class ManejadorBDTablas{
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.e(TAG, "Error en la solicitud HTTP: " + error.toString());
+                        Toast.makeText(contexto,"Error en el servidor, vuelve a intentar mas tarde",Toast.LENGTH_SHORT).show();
                         if (error instanceof NoConnectionError) {
                             Log.e(TAG, "Error: No hay conexión a internet");
                         } else if (error instanceof TimeoutError) {
@@ -772,6 +775,7 @@ public class ManejadorBDTablas{
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.e(TAG, "Error en la solicitud HTTP: " + error.toString());
+                        Toast.makeText(contexto,"Error en el servidor, vuelve a intentar mas tarde",Toast.LENGTH_SHORT).show();
                         if (error instanceof NoConnectionError) {
                             Log.e(TAG, "Error: No hay conexión a internet");
                         } else if (error instanceof TimeoutError) {
@@ -824,6 +828,7 @@ public class ManejadorBDTablas{
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(contexto,"Error en el servidor, vuelve a intentar mas tarde",Toast.LENGTH_SHORT).show();
                         arrayAdapter.clear();
                         arrayAdapter.notifyDataSetChanged();
                         error.printStackTrace();
@@ -863,6 +868,7 @@ public class ManejadorBDTablas{
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(contexto,"Error en el servidor, vuelve a intentar mas tarde",Toast.LENGTH_SHORT).show();
                         arrayAdapter.clear();
                         arrayAdapter.notifyDataSetChanged();
                         error.printStackTrace();
@@ -893,6 +899,7 @@ public class ManejadorBDTablas{
 
             @Override
             public void onUploadFailure(String error) {
+                Toast.makeText(contexto,"Error en el servidor, vuelve a intentar mas tarde",Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "Error al subir la imagen: " + error);
             }
         });
@@ -940,6 +947,7 @@ public class ManejadorBDTablas{
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(contexto,"Error en el servidor, vuelve a intentar mas tarde",Toast.LENGTH_SHORT).show();
                 callback.onUploadFailure(t.getMessage());
             }
         });

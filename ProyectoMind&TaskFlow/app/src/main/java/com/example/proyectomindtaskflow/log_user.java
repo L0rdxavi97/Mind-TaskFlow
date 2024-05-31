@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -43,6 +44,7 @@ public class log_user extends AppCompatActivity {
                         .load(imageUri)
                         .into(imageView);
             } catch (Exception e) {
+                Toast.makeText(this,"Error al cargar la imagen",Toast.LENGTH_SHORT).show();
                 Log.e(TAG, "Error cargando la imagen con Glide", e);
                 imageView.setImageAlpha(R.drawable.logo);
             }

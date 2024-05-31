@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
@@ -50,18 +51,16 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(usr.getText().toString().isEmpty() || psw.getText().toString().isEmpty())
                 {
-                    Log.d("MainActivity", "Fallo en la autenticación del usuario.");
+                    Toast.makeText(MainActivity.this,"Fallo en la autenticación del usuario.",Toast.LENGTH_SHORT).show();
                 }else{
                     manejadorBDTablas.check_user(usr.getText().toString(), psw.getText().toString(), new CheckUserCallback() {
                         @Override
                         public void onCheckUserResult(boolean success) {
                             if (success) {
-                                Log.d("MainActivity", "Usuario autenticado correctamente.");
+                                Toast.makeText(MainActivity.this,"Usuario autentificado correctamente.",Toast.LENGTH_SHORT).show();
                                 intento();
-                                // Lógica adicional para usuario autenticado
                             } else {
-                                Log.d("MainActivity", "Fallo en la autenticación del usuario.");
-                                // Lógica adicional para fallo en la autenticación
+                                Toast.makeText(MainActivity.this,"Fallo en la autenticación del usuario.",Toast.LENGTH_SHORT).show();
                             }
                         }
                     });

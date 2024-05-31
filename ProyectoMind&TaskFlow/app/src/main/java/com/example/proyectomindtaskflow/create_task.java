@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -54,7 +55,7 @@ public class create_task extends AppCompatActivity {
                     manejadorBDTablas.createtask(tit,d,g,prt,id);
                     intento();
                 }else{
-                    System.out.println("Titulo y descripcion son obligatorios");
+                    Toast.makeText(create_task.this,"Titulo y descripcion es obligatorio",Toast.LENGTH_SHORT).show();
                 }
             }
         });
