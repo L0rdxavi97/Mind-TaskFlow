@@ -114,4 +114,12 @@ public class create_user_activity extends AppCompatActivity {
             imagen.setImageURI(imageUri);
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        nombre.setText("");
+        password.setText("");
+        frase.setText("");
+    }
 }

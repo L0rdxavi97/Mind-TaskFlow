@@ -121,9 +121,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // Verificar el estado de la autenticación
-        boolean isAuthenticated = ManejadorBDTablas.get_check_user();
-        Log.d("MainActivity", "Usuario autenticado: " + isAuthenticated);
+        usr.setText("");
+        psw.setText("");
     }
 
     public static String gettext(Context context, String key, String defaultValue) {
