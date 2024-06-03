@@ -59,12 +59,11 @@ public class modtask extends AppCompatActivity {
                 }else{
                     p=2;
                 }
-
-                if(tit!="" && d!=""){
+                if(tit.isEmpty() || d.isEmpty()){
+                    Toast.makeText(modtask.this,"Titulo y descripcion es obligatorio",Toast.LENGTH_SHORT).show();
+                }else{
                     manejadorBDTablas.modtask(tit,d,g,p,id);
                     intento();
-                }else{
-                    Toast.makeText(modtask.this,"Titulo y descripcion es obligatorio",Toast.LENGTH_SHORT).show();
                 }
             }
         });

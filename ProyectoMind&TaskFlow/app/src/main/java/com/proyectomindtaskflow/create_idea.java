@@ -41,11 +41,11 @@ public class create_idea extends AppCompatActivity {
                 String g=grupo.getText().toString();
 
 
-                if(tit!="" && d!=""){
+                if(tit.isEmpty() || d.isEmpty()){
+                    Toast.makeText(create_idea.this,"Titulo y descripcion es obligatorio",Toast.LENGTH_SHORT).show();
+                }else{
                     manejadorBDTablas.createidea(tit,d,g,id);
                     intento();
-                }else{
-                    Toast.makeText(create_idea.this,"Titulo y descripcion es obligatorio",Toast.LENGTH_SHORT).show();
                 }
             }
         });

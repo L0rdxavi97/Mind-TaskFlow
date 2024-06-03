@@ -234,7 +234,7 @@ public class ManejadorBDTablas{
                     public void onErrorResponse(VolleyError error) {
                         ManejadorBDTablas.change_check_userName(false);
                         Log.e(TAG, "Error en la solicitud HTTP: " + error.toString());
-                        Toast.makeText(contexto,"Error en el servidor, vuelve a intentar mas tarde",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(contexto,"Usuario no encontrado",Toast.LENGTH_SHORT).show();
                         if (error instanceof NoConnectionError) {
                             Log.e(TAG, "Error: No hay conexión a internet");
                         } else if (error instanceof TimeoutError) {
@@ -316,7 +316,7 @@ public class ManejadorBDTablas{
                     public void onErrorResponse(VolleyError error) {
                         ManejadorBDTablas.change_check_user(false);
                         Log.e(TAG, "Error en la solicitud HTTP: " + error.toString());
-                        Toast.makeText(contexto,"Error en el servidor, vuelve a intentar mas tarde",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(contexto,"Usuario no encontrado",Toast.LENGTH_SHORT).show();
                         if (error instanceof NoConnectionError) {
                             Log.e(TAG, "Error: No hay conexión a internet");
                         } else if (error instanceof TimeoutError) {
@@ -489,6 +489,7 @@ public class ManejadorBDTablas{
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(contexto,"No hay Ideas",Toast.LENGTH_SHORT).show();
                         error.printStackTrace();
                     }
                 });
@@ -523,7 +524,7 @@ public class ManejadorBDTablas{
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(contexto,"Error en el servidor, vuelve a intentar mas tarde",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(contexto,"No hay Tareas",Toast.LENGTH_SHORT).show();
                         error.printStackTrace();
                     }
                 });
@@ -585,6 +586,7 @@ public class ManejadorBDTablas{
                             Log.d(TAG, "Respuesta del servidor: " + message);
 
                             if ("success".equals(status)) {
+                                Toast.makeText(contexto,"Idea eliminada correctamente",Toast.LENGTH_SHORT).show();
                                 Log.d(TAG, "Idea eliminada correctamente");
                             } else {
                                 Log.e(TAG, "Error al eliminar la idea: " + message);
@@ -647,7 +649,8 @@ public class ManejadorBDTablas{
                             Log.d(TAG, "Respuesta del servidor: " + message);
 
                             if ("success".equals(status)) {
-                                Log.d(TAG, "Idea eliminada correctamente");
+                                Log.d(TAG, "Tarea eliminada correctamente");
+                                Toast.makeText(contexto,"Tarea eliminada correctamente",Toast.LENGTH_SHORT).show();
                             } else {
                                 Log.e(TAG, "Error al eliminar la tarea: " + message);
                             }
@@ -827,7 +830,7 @@ public class ManejadorBDTablas{
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(contexto,"Error en el servidor, vuelve a intentar mas tarde",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(contexto,"No hay Ideas",Toast.LENGTH_SHORT).show();
                         arrayAdapter.clear();
                         arrayAdapter.notifyDataSetChanged();
                         error.printStackTrace();
@@ -867,7 +870,7 @@ public class ManejadorBDTablas{
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(contexto,"Error en el servidor, vuelve a intentar mas tarde",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(contexto,"No hay Tareas",Toast.LENGTH_SHORT).show();
                         arrayAdapter.clear();
                         arrayAdapter.notifyDataSetChanged();
                         error.printStackTrace();

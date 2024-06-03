@@ -49,12 +49,11 @@ public class create_task extends AppCompatActivity {
                 }else{
                     prt=2;
                 }
-
-                if(tit!="" && d!=""){
+                if(tit.isEmpty() || d.isEmpty()){
+                    Toast.makeText(create_task.this,"Titulo y descripcion es obligatorio",Toast.LENGTH_SHORT).show();
+                }else{
                     manejadorBDTablas.createtask(tit,d,g,prt,id);
                     intento();
-                }else{
-                    Toast.makeText(create_task.this,"Titulo y descripcion es obligatorio",Toast.LENGTH_SHORT).show();
                 }
             }
         });

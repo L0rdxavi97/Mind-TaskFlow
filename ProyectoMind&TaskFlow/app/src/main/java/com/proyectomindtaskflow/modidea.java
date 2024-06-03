@@ -48,11 +48,11 @@ public class modidea extends AppCompatActivity {
                 String g=grupo.getText().toString();
 
 
-                if(tit!="" && d!=""){
+                if(tit.isEmpty() || d.isEmpty()){
+                    Toast.makeText(modidea.this,"Titulo y descripcion es obligatorio",Toast.LENGTH_SHORT).show();
+                }else{
                     manejadorBDTablas.modidea(tit,d,g,id);
                     intento();
-                }else{
-                    Toast.makeText(modidea.this,"Titulo y descripcion es obligatorio",Toast.LENGTH_SHORT).show();
                 }
             }
         });
