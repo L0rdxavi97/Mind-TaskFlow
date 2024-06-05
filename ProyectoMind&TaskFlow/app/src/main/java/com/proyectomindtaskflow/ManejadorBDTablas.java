@@ -93,6 +93,7 @@ public class ManejadorBDTablas{
             postData.put("valor2", password);
             postData.put("valor3", frase);
             postData.put("imageUrl", imageUrl);
+            Toast.makeText(contexto,"Usuario creado",Toast.LENGTH_SHORT).show();
         } catch (JSONException e) {
             e.printStackTrace();
             return;
@@ -103,6 +104,7 @@ public class ManejadorBDTablas{
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d(TAG, "Respuesta del servidor: " + response.toString());
+                        Toast.makeText(contexto,"Usuario creado",Toast.LENGTH_SHORT).show();
                         return;
                     }
                 },
@@ -370,6 +372,7 @@ public class ManejadorBDTablas{
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d(TAG, "Respuesta del servidor: " + response.toString());
+                        Toast.makeText(contexto,"Idea creada",Toast.LENGTH_SHORT).show();
                         return;
                     }
                 },
@@ -429,6 +432,7 @@ public class ManejadorBDTablas{
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d(TAG, "Respuesta del servidor: " + response.toString());
+                        Toast.makeText(contexto,"Tarea creada",Toast.LENGTH_SHORT).show();
                         return;
                     }
                 },
@@ -714,6 +718,7 @@ public class ManejadorBDTablas{
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d(TAG, "Respuesta del servidor: " + response.toString());
+                        Toast.makeText(contexto,"Idea actualizada",Toast.LENGTH_SHORT).show();
                         return;
                     }
                 },
@@ -770,6 +775,7 @@ public class ManejadorBDTablas{
                     @Override
                     public void onResponse(JSONObject response) {
                         Log.d(TAG, "Respuesta del servidor: " + response.toString());
+                        Toast.makeText(contexto,"Tarea actualizada",Toast.LENGTH_SHORT).show();
                         return;
                     }
                 },
