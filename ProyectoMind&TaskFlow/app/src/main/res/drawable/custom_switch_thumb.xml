@@ -1,0 +1,6 @@
+<!-- res/drawable/custom_switch_thumb.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#D1C02F" />
+    <size android:width="40dp" android:height="30dp"/>
+    <corners android:radius="40dp"/>
+</shape>
