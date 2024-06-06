@@ -1,9 +1,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.ProyectoMindTaskFlow" parent="Theme.AppCompat.DayNight.DarkActionBar">
+    <style name="Base.Theme.ProyectoMindTaskFlow" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your light theme here. -->
          <item name="colorPrimary">#0A3D3B</item>
-         <item name="colorButtonNormal">#126E6A</item>
+         <item name="colorPrimaryDark">#115A5A</item>
+         <item name="colorButtonNormal">#126A66</item>
         <item name="buttonStyle">@style/ButtonStyle.ProyectoMindTaskFlow</item>
         <item name="android:textViewStyle">@style/textview.ProyectoMindTaskFlow</item>
         <item name="editTextStyle">@style/edittext.ProyectoMindTaskFlow</item>
