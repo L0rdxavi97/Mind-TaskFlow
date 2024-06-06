@@ -75,7 +75,7 @@
 
     <EditText
         android:id="@+id/searchett"
-        android:layout_width="400dp"
+        android:layout_width="388dp"
         android:layout_height="48dp"
         android:layout_marginTop="84dp"
         android:ems="10"
