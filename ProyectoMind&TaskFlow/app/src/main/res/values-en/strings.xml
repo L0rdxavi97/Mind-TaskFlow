@@ -17,4 +17,5 @@
     <string name="cancel">Cancel</string>
     <string name="upd">Update</string>
     <string name="search">Search</string>
+    <string name="changeimage">* You must select a image</string>
 </resources>
